@@ -7,7 +7,7 @@ H. T. Henry Chan, Marc A. Moesser, Rebecca K. Walters, Tika R. Malla, Rebecca M.
 
 doi: [https://doi.org/10.1101/2021.06.18.446355](https://bit.ly/peptibitors)
 
-![2q6g+11_SARS-CoV-2_Mpro_substrates_min_grid.png](https://doi.org/10.6084/m9.figshare.12830324/embed)
+![2q6g+11_SARS-CoV-2_Mpro_substrates_min_grid.png](https://widgets.figshare.com/articles/12830324/embed?show_title=0)
 
 Our work has greatly benefited from the [publicly-available X-ray crystal structures of SARS-CoV-2 Mpro at the PDB](https://www.rcsb.org/news?year=2020&article=5e74d55d2d410731e9944f52&feature=true) and [Diamond Light Source's XChem fragment screen](https://www.diamond.ac.uk/covid-19/for-scientists/Main-protease-structure-and-XChem.html).
 
