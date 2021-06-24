@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation Name="neutral">
+  <SystemProperties>
+    <SimulationBoundary IsResizeable="true" PeriodicBoundary="false" SimulationBox="10,10,10" />
+    <Thermostat CollisionFrequency="1" EquilibriumTemperature="300" Type="AndersenThermostat" />    
+    <Integrator TimeStep="0.0005" Type="Verlet" />
+    	<Logging>
+      <Logger LogPath="D:\CoronaDocking2020\narupa-server\bin\debug\Assets\Logs\6yb7\DebbiePep12_trajs" Type="XYZ" Positions="true" Velocities="true" Forces="true" WriteFrequency="500" UseDateTimeStamp="true" />
+      <Logger LogPath="D:\CoronaDocking2020\narupa-server\bin\debug\Assets\Logs\6yb7\DebbiePep12_trajs" Type="StateLogger" Time="true" PotentialEnergy="true" KineticEnergy="true" Temperature="true" WriteFrequency="50" UseDateTimeStamp="true" />
+      <Logger LogPath="D:\CoronaDocking2020\narupa-server\bin\debug\Assets\Logs\6yb7\DebbiePep12_trajs" Type="Interaction" WriteFrequency="500" UseDateTimeStamp="true" />
+    </Logging>
+  </SystemProperties>
+  <Topology>
+    <Templates>
+      <Residue Name="neutral">
+	  <File Centre="false" Path="Assets\Simulations\DockingTasks\6yb7_docking\6yb7_vr.pdb"/>
+       <ForceFields>
+          <InteractiveGaussianForceField GradientScaleFactor="200" />
+          <OpenMMForceField TargetPlatform="CUDA" SystemFile="Assets\Simulations\DockingTasks\6yb7_docking\6yb7_vr.xml">
+          </OpenMMForceField>
+        </ForceFields>
+       </Residue>
+      <Residue Name="subs1">
+	  <File Centre="false" Path="Assets\Simulations\DockingTasks\DebbiesPeptides\pep12_parameterised.pdb"/>
+       <ForceFields>
+          <InteractiveGaussianForceField GradientScaleFactor="200" ReinitializeVelocities="true" />
+          <OpenMMForceField  TargetPlatform="CUDA" SystemFile="Assets\Simulations\DockingTasks\DebbiesPeptides\pep12_parameterised.xml">
+          </OpenMMForceField>
+      </ForceFields>
+    </Residue>
+    </Templates>
+    <Spawners>
+      <InstanceSpawner Name="neutral" Template="neutral" Count="1" />
+      <Spawner Name="subs1" Template="subs1" Count="1" />
+    </Spawners>
+    <SelectionData FilePath='Assets\Simulations\DockingTasks\6yb7_DebbiePep12_hbonds_and_S2.json'/>
+  </Topology>
+</Simulation>
