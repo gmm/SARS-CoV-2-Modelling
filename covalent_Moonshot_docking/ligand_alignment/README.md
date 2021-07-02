@@ -1,4 +1,4 @@
-run the mcs_constrained_align.py script on the sub+frag combination outlined in the csv file.
+run the mcs_constrained_alignment.py script on the sub+frag combination outlined in the csv file.
 
 The Moonshot compounds and XChem Fragments are reacted with Cys using RDKit to generate the Cys-Adducts for covalent docking.
 
