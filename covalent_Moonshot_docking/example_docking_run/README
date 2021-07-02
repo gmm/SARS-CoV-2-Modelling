@@ -1,0 +1,13 @@
+This is an example docking run for compound AHN-SAT-de2502ba-8_x1380.
+
+The input files are:
+The protein: Mpro-x1380_0_dim.sup_prep_prot.pdb
+-> make sure the Cys-145 of the protein pdb file is removed except for the backbone C+O+N atoms. Also rename the residue to LIG.
+
+The ligand: AHN-SAT-de2502ba-8_x1380_flex.pdb
+-> make sure the ligand residue is named "LIG", the residue number is 145 and the cysteine backbone atoms of the cys-adduct is named C, N and O as they would be in a normal PDB file. This is crucial for AD4 to assign correct torsion tree.
+
+Run the following script: "prepare_docking_files.bash" in an environment that is able to execute MGLtools-1.5.7 scripts as downloaded from:
+http://mgltools.scripps.edu/downloads/mgltools-1-5-7rc1
+
+The prepare_docking_files.bash script is built to support high-throughput parallel docking of compounds. If you do not have GNU-parallel installed, you can just run dockings manually on individual compounds.

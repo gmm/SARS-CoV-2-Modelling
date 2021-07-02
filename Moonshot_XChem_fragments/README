@@ -1,0 +1,5 @@
+Arpeggio contacts were generated using https://github.com/harryjubb/arpeggio
+
+Fragment clusters were generated using Cluster_XChem_fragments.ipynb and saved as json files ("pkl" files optional) in the "./clusters/" folder.
+
+Cluster 1-5 of the 0.5 Tan Sim threshold were also provided as pse files in the "cluster_1to5_pymol_threshold_0.5.zip" file to be loaded into PyMol.

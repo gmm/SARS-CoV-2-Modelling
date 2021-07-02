@@ -1,0 +1,40 @@
+REMARK  4 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: CB_2  and  SG_3 
+REMARK    2  A    between atoms: SG_3  and  C03_4 
+REMARK    3  A    between atoms: C03_4  and  C04_5 
+REMARK       I    between atoms: C04_5  and  N06_7 
+REMARK       I    between atoms: N99_12  and  C11_13 
+REMARK    4  A    between atoms: C11_13  and  C12_14 
+ROOT
+ATOM      1  CA  LIG A 145     -14.803  18.725  64.123  0.00  0.00     0.013 C 
+ATOM      2  CB  LIG A 145     -14.218  18.629  65.525  0.00  0.00     0.058 C 
+ENDROOT
+BRANCH   2   3
+ATOM      3  SG  LIG A 145     -14.103  16.873  66.059  0.00  0.00    -0.130 SA
+BRANCH   3   4
+ATOM      4  C03 LIG A 145     -12.449  16.416  65.404  0.00  0.00     0.145 C 
+BRANCH   4   5
+ATOM      5  C04 LIG A 145     -11.462  17.526  65.551  0.00  0.00     0.245 C 
+ATOM      6  O05 LIG A 145     -11.224  18.242  64.547  0.00  0.00    -0.271 OA
+ATOM      7  N06 LIG A 145     -10.834  17.820  66.803  0.00  0.00    -0.316 N 
+ATOM      8  C07 LIG A 145     -11.105  16.984  67.978  0.00  0.00     0.128 C 
+ATOM      9  C08 LIG A 145      -9.962  18.989  66.918  0.00  0.00     0.128 C 
+ATOM     10  C09 LIG A 145     -10.386  17.513  69.217  0.00  0.00     0.129 C 
+ATOM     11  N99 LIG A 145      -8.997  17.836  68.890  0.00  0.00    -0.313 N 
+ATOM     12  C10 LIG A 145      -8.694  18.625  67.689  0.00  0.00     0.129 C 
+ATOM     13  C11 LIG A 145      -7.969  17.551  69.857  0.00  0.00     0.257 C 
+ATOM     14  O99 LIG A 145      -8.287  17.427  71.072  0.00  0.00    -0.267 OA
+BRANCH  13  15
+ATOM     15  C12 LIG A 145      -6.549  17.379  69.471  0.00  0.00     0.056 A 
+ATOM     16  C13 LIG A 145      -6.183  17.107  68.144  0.00  0.00     0.004 A 
+ATOM     17  C15 LIG A 145      -4.841  16.921  67.800  0.00  0.00    -0.004 A 
+ATOM     18  C17 LIG A 145      -3.852  16.996  68.784  0.00  0.00    -0.022 A 
+ATOM     19  C99 LIG A 145      -2.425  16.798  68.419  0.00  0.00     0.031 C 
+ATOM     20  C16 LIG A 145      -4.205  17.253  70.110  0.00  0.00    -0.004 A 
+ATOM     21  C14 LIG A 145      -5.548  17.440  70.453  0.00  0.00     0.004 A 
+ENDBRANCH  13  15
+ENDBRANCH   4   5
+ENDBRANCH   3   4
+ENDBRANCH   2   3
+TORSDOF 4
