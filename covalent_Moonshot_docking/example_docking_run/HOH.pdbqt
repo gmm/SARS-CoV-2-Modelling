@@ -1,0 +1,8 @@
+REMARK  0 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+ROOT
+ATOM      1  O   HOH W   1      -7.908  25.459  73.866  0.00  0.00    -0.411 OA
+ATOM      2  H1  HOH W   1      -8.642  25.043  73.414  0.00  0.00     0.205 HD
+ATOM      3  H2  HOH W   1      -7.400  25.872  73.168  0.00  0.00     0.205 HD
+ENDROOT
+TORSDOF 0

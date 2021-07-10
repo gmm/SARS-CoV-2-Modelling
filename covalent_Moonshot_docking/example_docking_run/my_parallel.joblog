@@ -1,0 +1,2 @@
+Seq	Host	Starttime	JobRuntime	Send	Receive	Exitval	Signal	Command
+1	:	1625146231.076	    81.782	0	0	0	0	/home/marc/custom_software/x86_64Linux3/autodock4 -p ./AHN-SAT-de2502ba-8_x1380_dock.dpf -l ./AHN-SAT-de2502ba-8_x1380_dock_log.dlg
