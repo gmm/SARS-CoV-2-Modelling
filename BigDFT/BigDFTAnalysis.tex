@@ -1,0 +1,1952 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{BigDFTAnalysis}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Analysis on the QM interaction patterns of MPro
+structures}\label{analysis-on-the-qm-interaction-patterns-of-mpro-structures}
+
+We have seen that the QM description offered by large-scale DFT
+calculations enables us to provide a different characterization of the
+structures.
+
+    The base fragmentation of the dimer (monomer) have been found by
+inspecting the MD shapshots of the protein without the presence of the
+ligand nor the solvent molecules.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{yaml}
+\PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{from} \PY{n+nn}{futile}\PY{n+nn}{.}\PY{n+nn}{Utils} \PY{k+kn}{import} \PY{n}{file\PYZus{}list}
+\PY{k+kn}{from} \PY{n+nn}{pandas} \PY{k+kn}{import} \PY{n}{DataFrame}\PY{p}{,} \PY{n}{concat}
+\PY{k+kn}{from} \PY{n+nn}{BigDFT} \PY{k+kn}{import} \PY{n}{BioQM}
+\PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Stats} \PY{k+kn}{import} \PY{n}{ClusterGrammer}
+\PY{k+kn}{from} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{cluster} \PY{k+kn}{import} \PY{n}{hierarchy} \PY{k}{as} \PY{n}{hc}
+\PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{PostProcessing} \PY{k+kn}{import} \PY{n}{systems\PYZus{}heatmap}
+\PY{k+kn}{from} \PY{n+nn}{ase}\PY{n+nn}{.}\PY{n+nn}{units} \PY{k+kn}{import} \PY{n}{Hartree}\PY{p}{,} \PY{n}{kcal}\PY{p}{,} \PY{n}{mol}\PY{p}{,} \PY{n}{kJ}
+\PY{n}{factor} \PY{o}{=} \PY{n}{Hartree} \PY{o}{/} \PY{p}{(}\PY{n}{kJ}\PY{o}{/}\PY{n}{mol}\PY{p}{)} \PY{c+c1}{\PYZsh{}(kcal/mol)}
+\PY{n}{dimer\PYZus{}view}\PY{o}{=}\PY{n}{yaml}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n+nb}{open}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dimer\PYZus{}view.yaml}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{run\PYZus{}id}\PY{p}{(}\PY{n}{name}\PY{p}{)}\PY{p}{:}
+    \PY{n}{nm} \PY{o}{=} \PY{n}{name} \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{name} \PY{k}{else} \PY{n}{name}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{spl} \PY{o}{=} \PY{n}{nm}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} print (spl)}
+    \PY{n}{substrate} \PY{o}{=} \PY{n}{spl}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{icluster} \PY{o}{=} \PY{n}{spl}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cluster}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{snapshot} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{spl}\PY{p}{[}\PY{n}{icluster}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{n}{kind} \PY{o}{=} \PY{n}{spl}\PY{p}{[}\PY{n}{icluster}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{k}{except} \PY{n+ne}{Exception}\PY{p}{:}
+        \PY{n}{snapshot} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{spl}\PY{p}{[}\PY{n}{icluster}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.tar.bz2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+        \PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{runs}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{return} \PY{n}{substrate}\PY{p}{,}\PY{n}{kind}\PY{p}{,}\PY{n}{snapshot}
+\PY{k}{def} \PY{n+nf}{setdefault\PYZus{}multiple}\PY{p}{(}\PY{n}{d}\PY{p}{,}\PY{o}{*}\PY{n}{args}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{futile}\PY{n+nn}{.}\PY{n+nn}{Utils} \PY{k+kn}{import} \PY{n}{push\PYZus{}path}
+    \PY{n}{tmp}\PY{p}{,}\PY{n}{key} \PY{o}{=} \PY{n}{push\PYZus{}path}\PY{p}{(}\PY{n}{d}\PY{p}{,}\PY{o}{*}\PY{n}{args}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{tmp}\PY{p}{[}\PY{n}{key}\PY{p}{]} \PY{o}{=} \PY{n}{args}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{k}{return} \PY{n}{d}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{files} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inhibitors}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dimer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{assembly}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+    \PY{n}{files} \PY{o}{+}\PY{o}{=} \PY{n}{file\PYZus{}list}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{newruns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{suffix}\PY{o}{=}\PY{n}{key}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}1.1.tar.bz2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{include\PYZus{}directory\PYZus{}path}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{data} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{tree}\PY{p}{,} \PY{n}{file} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n}{run\PYZus{}id}\PY{p}{,}\PY{n}{files}\PY{p}{)}\PY{p}{,}\PY{n}{files}\PY{p}{)}\PY{p}{:}
+    \PY{n}{path} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{tree}\PY{p}{)}
+    \PY{n}{value} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{archive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{file}\PY{p}{\PYZcb{}}
+    \PY{n}{setdefault\PYZus{}multiple}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{o}{*}\PY{p}{(}\PY{n}{path}\PY{o}{+}\PY{p}{[}\PY{n}{value}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pops}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{kind} \PY{o+ow}{in} \PY{n}{data}\PY{p}{:}
+    \PY{n+nb}{print} \PY{p}{(}\PY{n}{kind}\PY{p}{)}
+    \PY{n}{pops}\PY{p}{[}\PY{n}{kind}\PY{p}{]} \PY{o}{=} \PY{n}{BioQM}\PY{o}{.}\PY{n}{BioSystemPopulation}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{kind}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}populations.tar.gz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+subs02
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/Bio/SeqIO/PdbIO.py:292: BiopythonParserWarning: 'HEADER' line not
+found; can't determine PDB ID.
+  BiopythonParserWarning,
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0:  \# weight=1.0
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/Bio/SeqIO/PdbIO.py:292: BiopythonParserWarning: 'HEADER' line not
+found; can't determine PDB ID.
+  BiopythonParserWarning,
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+  - bond\_orders
+  - interactions
+  - electrostatic\_interactions
+  - system\_dfs
+subs05
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/Bio/SeqIO/PdbIO.py:292: BiopythonParserWarning: 'HEADER' line not
+found; can't determine PDB ID.
+  BiopythonParserWarning,
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0:  \# weight=1.0
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/Bio/SeqIO/PdbIO.py:292: BiopythonParserWarning: 'HEADER' line not
+found; can't determine PDB ID.
+  BiopythonParserWarning,
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+  - bond\_orders
+  - interactions
+  - electrostatic\_interactions
+  - system\_dfs
+subs01
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/Bio/SeqIO/PdbIO.py:292: BiopythonParserWarning: 'HEADER' line not
+found; can't determine PDB ID.
+  BiopythonParserWarning,
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0:  \# weight=1.0
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/Bio/SeqIO/PdbIO.py:292: BiopythonParserWarning: 'HEADER' line not
+found; can't determine PDB ID.
+  BiopythonParserWarning,
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+  - bond\_orders
+  - interactions
+  - electrostatic\_interactions
+  - system\_dfs
+subs13
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/Bio/SeqIO/PdbIO.py:292: BiopythonParserWarning: 'HEADER' line not
+found; can't determine PDB ID.
+  BiopythonParserWarning,
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0:  \# weight=1.0
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/Bio/SeqIO/PdbIO.py:292: BiopythonParserWarning: 'HEADER' line not
+found; can't determine PDB ID.
+  BiopythonParserWarning,
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+  - bond\_orders
+  - interactions
+  - electrostatic\_interactions
+  - system\_dfs
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{determine\PYZus{}sort\PYZus{}order}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{n}{ct}\PY{p}{)}\PY{p}{:}
+    \PY{n}{st}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{fr} \PY{o+ow}{in} \PY{n}{ct}\PY{p}{:}
+        \PY{n}{ipos} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}ids}\PY{p}{[}\PY{n}{fr}\PY{p}{]}
+        \PY{n}{st}\PY{p}{[}\PY{n}{ipos}\PY{p}{]} \PY{o}{=} \PY{n}{fr}
+    \PY{k}{return} \PY{p}{[}\PY{n}{st}\PY{p}{[}\PY{n}{f}\PY{p}{]} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n+nb}{sorted}\PY{p}{(}\PY{n}{st}\PY{p}{)}\PY{p}{]}
+\PY{k}{def} \PY{n+nf}{overall\PYZus{}contact\PYZus{}region}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{cutoff}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bond\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{all\PYZus{}contact\PYZus{}regions}\PY{o}{=}\PY{p}{[}\PY{p}{]}
+    \PY{k}{for} \PY{n}{subs}\PY{p}{,} \PY{n}{sys} \PY{o+ow}{in} \PY{n}{pops}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{n}{contact}\PY{p}{,} \PY{n}{\PYZus{}}\PY{o}{=}\PY{n}{sys}\PY{o}{.}\PY{n}{identify\PYZus{}contact\PYZus{}region}\PY{p}{(}\PY{n}{sys}\PY{o}{.}\PY{n}{sequences\PYZus{}to\PYZus{}fragments}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}
+                                               \PY{n}{cutoff\PYZus{}bo}\PY{o}{=}\PY{n}{cutoff} \PY{k}{if} \PY{n}{criteria}\PY{o}{==}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bond\PYZus{}order}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{l+m+mf}{1.e10}\PY{p}{,}
+                                               \PY{n}{cutoff\PYZus{}el}\PY{o}{=}\PY{l+m+mf}{1.e10} \PY{k}{if} \PY{n}{criteria}\PY{o}{==}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bond\PYZus{}order}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{n}{cutoff}\PY{p}{)}
+        \PY{n}{all\PYZus{}contact\PYZus{}regions} \PY{o}{+}\PY{o}{=} \PY{p}{[}\PY{n}{c} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{contact} \PY{k}{if} \PY{n}{c} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{all\PYZus{}contact\PYZus{}regions} \PY{o+ow}{and} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C\PYZhy{}}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{c}\PY{p}{]}
+    \PY{k}{return} \PY{n}{all\PYZus{}contact\PYZus{}regions}
+\PY{k}{def} \PY{n+nf}{substrate\PYZus{}fragment\PYZus{}name}\PY{p}{(}\PY{n}{res}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{BioQM} \PY{k+kn}{import} \PY{n}{rename\PYZus{}residue}
+    \PY{n}{renamed} \PY{o}{=} \PY{n}{rename\PYZus{}residue}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+    \PY{n}{ch}\PY{p}{,}\PY{n}{idlett} \PY{o}{=} \PY{n}{renamed}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ids}\PY{p}{,}\PY{n}{lett} \PY{o}{=} \PY{n}{idlett}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{shift}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{B}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{o}{\PYZhy{}}\PY{l+m+mi}{7}\PY{p}{\PYZcb{}}
+    \PY{k}{if} \PY{n}{ch} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{n}{n}\PY{o}{=}\PY{n+nb}{int}\PY{p}{(}\PY{n}{ids}\PY{p}{)}\PY{o}{+}\PY{n}{shift}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{ch}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}
+        \PY{k}{if} \PY{n}{n}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{:} \PY{n}{n}\PY{o}{+}\PY{o}{=}\PY{l+m+mi}{1}
+        \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}\PY{o}{+} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{n} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{return} \PY{n}{res}
+\PY{k}{def} \PY{n+nf}{build\PYZus{}dataframe\PYZus{}of\PYZus{}contact\PYZus{}interactions}\PY{p}{(}\PY{n}{pop}\PY{p}{,}\PY{n}{substrate}\PY{p}{,}\PY{n}{contact}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Stats} \PY{k+kn}{import} \PY{n}{Population}\PY{p}{,}\PY{n}{weighted\PYZus{}dataframe}
+    \PY{n}{int\PYZus{}pop} \PY{o}{=} \PY{n}{Population}\PY{p}{(}\PY{n}{labels}\PY{o}{=}\PY{n}{contact}\PY{p}{)}
+    \PY{k}{for} \PY{n}{df}\PY{p}{,}\PY{n}{w}\PY{p}{,}\PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{pop}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{pop}\PY{o}{.}\PY{n}{weights}\PY{p}{,}\PY{n}{pop}\PY{o}{.}\PY{n}{sample\PYZus{}labels}\PY{p}{)}\PY{p}{:}
+        \PY{n}{fragments} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}
+        \PY{n}{interactions} \PY{o}{=} \PY{n}{factor}\PY{o}{*}\PY{n}{BioQM}\PY{o}{.}\PY{n}{interaction\PYZus{}strengths}\PY{p}{(}\PY{n}{fragments}\PY{p}{,} \PY{n}{substrate}\PY{p}{,} \PY{n}{df}\PY{p}{)}
+        \PY{n}{dt} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{f}\PY{p}{:}\PY{p}{[}\PY{n}{interactions}\PY{p}{[}\PY{n}{fragments}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n}{f}\PY{p}{)}\PY{p}{]}\PY{p}{]} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{contact}\PY{p}{\PYZcb{}}
+        \PY{n}{int\PYZus{}pop}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{dt}\PY{p}{,}\PY{n}{weight}\PY{o}{=}\PY{n}{w}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{n}{l}\PY{p}{)}
+    \PY{k}{return} \PY{n}{weighted\PYZus{}dataframe}\PY{p}{(}\PY{n}{int\PYZus{}pop}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{int\PYZus{}pop}\PY{o}{.}\PY{n}{weights}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{build\PYZus{}dataframe\PYZus{}of\PYZus{}substrate\PYZus{}interactions}\PY{p}{(}\PY{n}{pop}\PY{p}{,}\PY{n}{substrate}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Stats} \PY{k+kn}{import} \PY{n}{Population}\PY{p}{,}\PY{n}{weighted\PYZus{}dataframe}
+    \PY{n}{subsites} \PY{o}{=} \PY{p}{[}\PY{n}{substrate\PYZus{}fragment\PYZus{}name}\PY{p}{(}\PY{n}{f}\PY{p}{)} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{substrate}\PY{p}{]}
+    \PY{n}{int\PYZus{}pop} \PY{o}{=} \PY{n}{Population}\PY{p}{(}\PY{n}{labels}\PY{o}{=}\PY{n}{subsites}\PY{p}{)}
+    \PY{k}{for} \PY{n}{df}\PY{p}{,}\PY{n}{w}\PY{p}{,}\PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{pop}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{pop}\PY{o}{.}\PY{n}{weights}\PY{p}{,}\PY{n}{pop}\PY{o}{.}\PY{n}{sample\PYZus{}labels}\PY{p}{)}\PY{p}{:}
+        \PY{n}{fragments} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}
+        \PY{n}{interactions} \PY{o}{=} \PY{n}{factor}\PY{o}{*}\PY{n}{BioQM}\PY{o}{.}\PY{n}{interaction\PYZus{}strengths}\PY{p}{(}\PY{n}{fragments}\PY{p}{,}
+                                                          \PY{p}{[}\PY{n}{f} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{fragments} \PY{k}{if} \PY{n}{f} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{substrate}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{)}
+        \PY{n}{dt} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{substrate\PYZus{}fragment\PYZus{}name}\PY{p}{(}\PY{n}{f}\PY{p}{)}\PY{p}{:}\PY{p}{[}\PY{n}{interactions}\PY{p}{[}\PY{n}{fragments}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n}{f}\PY{p}{)}\PY{p}{]}\PY{p}{]} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{substrate}\PY{p}{\PYZcb{}}
+        \PY{n}{int\PYZus{}pop}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{dt}\PY{p}{,}\PY{n}{weight}\PY{o}{=}\PY{n}{w}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{n}{l}\PY{p}{)}
+    \PY{k}{return} \PY{n}{weighted\PYZus{}dataframe}\PY{p}{(}\PY{n}{int\PYZus{}pop}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{int\PYZus{}pop}\PY{o}{.}\PY{n}{weights}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{contact\PYZus{}df\PYZus{}of\PYZus{}substrate}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{contact}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{substrate}\PY{o}{=} \PY{n}{pops}\PY{o}{.}\PY{n}{sequences\PYZus{}to\PYZus{}fragments}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+    \PY{n}{pop}\PY{o}{=}\PY{n}{pops}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{n}{criteria}\PY{p}{]}
+    \PY{n}{df}\PY{o}{=}\PY{n}{build\PYZus{}dataframe\PYZus{}of\PYZus{}contact\PYZus{}interactions}\PY{p}{(}\PY{n}{pop}\PY{p}{,}\PY{n}{substrate}\PY{p}{,}\PY{p}{[}\PY{n}{c} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{contact} \PY{k}{if} \PY{n}{c} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{substrate}\PY{p}{]}\PY{p}{)} 
+    \PY{n}{sort}\PY{o}{=}\PY{n}{determine\PYZus{}sort\PYZus{}order}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{contact}\PY{p}{)}
+    \PY{n}{form} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{letter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{k}{if} \PY{n}{criteria}\PY{o}{==}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{letter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{n}{sort}\PY{p}{]}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n}{pops}\PY{o}{.}\PY{n}{labeldict}\PY{p}{(}\PY{n}{fmt}\PY{o}{=}\PY{n}{form}\PY{p}{)}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{contact\PYZus{}df\PYZus{}of\PYZus{}enzyme}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{substrate}\PY{o}{=} \PY{n}{pops}\PY{o}{.}\PY{n}{sequences\PYZus{}to\PYZus{}fragments}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+    \PY{n}{pop}\PY{o}{=}\PY{n}{pops}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{n}{criteria}\PY{p}{]}
+    \PY{n}{df}\PY{o}{=}\PY{n}{build\PYZus{}dataframe\PYZus{}of\PYZus{}substrate\PYZus{}interactions}\PY{p}{(}\PY{n}{pop}\PY{p}{,}\PY{n}{substrate}\PY{p}{)} 
+    \PY{c+c1}{\PYZsh{}sort=determine\PYZus{}sort\PYZus{}order(pops,substrate)}
+    \PY{c+c1}{\PYZsh{}form = [\PYZsq{}letter\PYZsq{},\PYZsq{}num\PYZsq{}] if criteria==\PYZsq{}interactions\PYZsq{} else [\PYZsq{}ch\PYZsq{},\PYZsq{}\PYZhy{}\PYZsq{},\PYZsq{}letter\PYZsq{},\PYZsq{}num\PYZsq{}]}
+    \PY{k}{return} \PY{n}{df} \PY{c+c1}{\PYZsh{}[sort].rename(columns=pops.labeldict(fmt=form))}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{represent\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{n}{criteria}\PY{p}{)}\PY{p}{:}
+    \PY{n}{substrate} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{sequences\PYZus{}to\PYZus{}fragments}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+    \PY{n}{data} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{target}\PY{o}{=}\PY{n}{substrate}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{n}{criteria}\PY{p}{)}
+    \PY{k}{return} \PY{p}{\PYZob{}}\PY{n}{f}\PY{p}{:} \PY{n}{e} \PY{k}{for} \PY{n}{e}\PY{p}{,}\PY{n}{f} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{)}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{relevant\PYZus{}violin\PYZus{}plots\PYZus{}substrates}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bond\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{criteria} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{n}{recriteria} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic\PYZus{}interactions}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{recriteria} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}}
+    \PY{n}{alldf}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{subs}\PY{p}{:} \PY{n}{contact\PYZus{}df\PYZus{}of\PYZus{}enzyme}\PY{p}{(}\PY{n}{pops}\PY{p}{[}\PY{n}{subs}\PY{p}{]}\PY{p}{,}\PY{n}{recriteria}\PY{p}{)} \PY{k}{for} \PY{n}{subs} \PY{o+ow}{in} \PY{n}{pops}\PY{p}{\PYZcb{}}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{16}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{subs}\PY{p}{,}\PY{n}{ax} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n+nb}{sorted}\PY{p}{(}\PY{n}{alldf}\PY{p}{)}\PY{p}{,}\PY{n}{axs}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{}ax=alldf[subs].boxplot(ax=ax)}
+        \PY{n}{ax}\PY{o}{=}\PY{n}{sns}\PY{o}{.}\PY{n}{violinplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{alldf}\PY{p}{[}\PY{n}{subs}\PY{p}{]}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,}\PY{n}{cut}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{subs} \PY{k}{if} \PY{n}{subs} \PY{o}{!=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs13}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pep13}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{alldf}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{346}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{substrate\PYZus{}df}\PY{o}{=}\PY{n}{relevant\PYZus{}violin\PYZus{}plots\PYZus{}substrates}\PY{p}{(}\PY{n}{pops}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{relevant\PYZus{}violin\PYZus{}plots}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{cutoff}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bond\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{ct}\PY{o}{=}\PY{n}{overall\PYZus{}contact\PYZus{}region}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{cutoff}\PY{p}{,}\PY{n}{criteria}\PY{p}{)}
+    \PY{k}{if} \PY{n}{criteria} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{n}{recriteria} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic\PYZus{}interactions}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{recriteria} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}}
+    \PY{n}{alldf}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{subs}\PY{p}{:} \PY{n}{contact\PYZus{}df\PYZus{}of\PYZus{}substrate}\PY{p}{(}\PY{n}{pops}\PY{p}{[}\PY{n}{subs}\PY{p}{]}\PY{p}{,}\PY{n}{ct}\PY{p}{,}\PY{n}{recriteria}\PY{p}{)} \PY{k}{for} \PY{n}{subs} \PY{o+ow}{in} \PY{n}{pops}\PY{p}{\PYZcb{}}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{16}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{subs}\PY{p}{,}\PY{n}{ax} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n+nb}{sorted}\PY{p}{(}\PY{n}{alldf}\PY{p}{)}\PY{p}{,}\PY{n}{axs}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{}ax=alldf[subs].boxplot(ax=ax)}
+        \PY{n}{ax}\PY{o}{=}\PY{n}{sns}\PY{o}{.}\PY{n}{violinplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{alldf}\PY{p}{[}\PY{n}{subs}\PY{p}{]}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,}\PY{n}{cut}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{subs} \PY{k}{if} \PY{n}{subs} \PY{o}{!=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs13}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pep13}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{ct}
+\PY{k}{def} \PY{n+nf}{average\PYZus{}heatmaps}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{ct}\PY{p}{,}\PY{n}{data}\PY{p}{,}\PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{viridis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{df} \PY{o}{=} \PY{n}{factor}\PY{o}{*}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{p}{)}
+    \PY{n}{sort}\PY{o}{=}\PY{n}{determine\PYZus{}sort\PYZus{}order}\PY{p}{(}\PY{n}{pops}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs01}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{ct}\PY{p}{)}
+    \PY{n}{lb} \PY{o}{=} \PY{n}{pops}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs01}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{labeldict}\PY{p}{(}\PY{n}{fmt}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{letter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{relct} \PY{o}{=} \PY{p}{[}\PY{n}{lb}\PY{p}{[}\PY{n}{c}\PY{p}{]} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{sort}\PY{p}{]}
+    \PY{n}{df}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{n}{sort}\PY{p}{]}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n}{lb}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{systems\PYZus{}heatmap}\PY{p}{(}\PY{n}{df}\PY{p}{,}\PY{n}{restrict\PYZus{}to}\PY{o}{=}\PY{p}{[}\PY{n}{relct}\PY{p}{]}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{n+nb}{sorted}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{p}{,}\PY{n}{cmap}\PY{o}{=}\PY{n}{cmap}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ct}\PY{o}{=}\PY{n}{relevant\PYZus{}violin\PYZus{}plots}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{l+m+mf}{0.005}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{collections} \PY{k+kn}{import} \PY{n}{OrderedDict}
+\PY{n}{subs\PYZus{}contact}\PY{o}{=}\PY{n}{OrderedDict}\PY{p}{(}\PY{p}{)}
+\PY{n}{subs\PYZus{}electrostatic}\PY{o}{=}\PY{n}{OrderedDict}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{name}\PY{p}{,}\PY{n}{sys} \PY{o+ow}{in} \PY{n}{pops}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{rename} \PY{o}{=} \PY{n}{name} \PY{k}{if} \PY{n}{name} \PY{o}{!=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs13}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pep13}\PY{l+s+s1}{\PYZsq{}}
+    \PY{n}{subs\PYZus{}contact}\PY{p}{[}\PY{n}{rename}\PY{p}{]}\PY{o}{=}\PY{n}{represent\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamiltonian}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{subs\PYZus{}electrostatic}\PY{p}{[}\PY{n}{rename}\PY{p}{]}\PY{o}{=}\PY{n}{represent\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{average\PYZus{}heatmaps}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{ct}\PY{p}{,}\PY{n}{subs\PYZus{}contact}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.image.AxesImage at 0x7f0531fdcda0>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_13_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{308}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{rename\PYZus{}fragment}\PY{p}{(}\PY{n}{res}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{BioQM} \PY{k+kn}{import} \PY{n}{rename\PYZus{}residue}
+    \PY{n}{renamed} \PY{o}{=} \PY{n}{rename\PYZus{}residue}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+    \PY{n}{ch}\PY{p}{,}\PY{n}{idlett} \PY{o}{=} \PY{n}{renamed}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ids}\PY{p}{,}\PY{n}{lett} \PY{o}{=} \PY{n}{idlett}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{shift}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{B}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{o}{\PYZhy{}}\PY{l+m+mi}{7}\PY{p}{\PYZcb{}}
+    \PY{k}{if} \PY{n}{ch} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{n}{n}\PY{o}{=}\PY{n+nb}{int}\PY{p}{(}\PY{n}{ids}\PY{p}{)}\PY{o}{+}\PY{n}{shift}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{ch}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}
+        \PY{k}{if} \PY{n}{n}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{:} \PY{n}{n}\PY{o}{+}\PY{o}{=}\PY{l+m+mi}{1}
+        \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n}{lett}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}\PY{o}{+} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{n} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n}{lett}\PY{p}{,}\PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{ids}\PY{p}{)}\PY{o}{+}\PY{n}{shift}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{ch}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{rotation}\PY{p}{(}\PY{n}{theta}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{numpy} \PY{k+kn}{import} \PY{n}{array}\PY{p}{,} \PY{n}{pi}
+    \PY{n}{th} \PY{o}{=} \PY{n}{pi}\PY{o}{/}\PY{l+m+mf}{180.0}\PY{o}{*}\PY{n}{theta}
+    \PY{k}{return} \PY{n}{array}\PY{p}{(}\PY{p}{(} \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                 \PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{p}{,}  \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{p}{)} \PY{p}{)}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{rotate\PYZus{}layout}\PY{p}{(}\PY{n}{layout}\PY{p}{,}\PY{n}{theta}\PY{p}{)}\PY{p}{:}
+    \PY{n}{R} \PY{o}{=} \PY{n}{rotation}\PY{p}{(}\PY{n}{theta}\PY{p}{)}
+    \PY{k}{return} \PY{p}{\PYZob{}}\PY{n}{k}\PY{p}{:} \PY{n}{R}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n}{layout}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+\PY{k}{def} \PY{n+nf}{interaction\PYZus{}graph}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{n}{cutoff}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,}\PY{n}{colorbar\PYZus{}label}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{n}{subs\PYZus{}frag} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{sequences\PYZus{}to\PYZus{}fragments}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+    \PY{n}{remap}\PY{o}{=}\PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n}{rename\PYZus{}fragment}\PY{p}{,}\PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{)}\PY{p}{)}
+    \PY{n}{interactions} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{subs\PYZus{}frag}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamiltonian}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{=}\PY{n}{sys}\PY{o}{.}\PY{n}{display\PYZus{}graph}\PY{p}{(}\PY{n}{restrict\PYZus{}to}\PY{o}{=}\PY{n}{subs\PYZus{}frag}\PY{p}{,}\PY{n}{bo\PYZus{}cutoff}\PY{o}{=}\PY{n}{cutoff}\PY{p}{,}\PY{n}{fragment\PYZus{}labels}\PY{o}{=}\PY{n}{remap}\PY{p}{,}
+                         \PY{n}{field\PYZus{}vals}\PY{o}{=}\PY{n}{factor}\PY{o}{*}\PY{n}{interactions}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,}\PY{n}{vmax}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{vmin}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{45}\PY{p}{,}
+                         \PY{n}{colorbar\PYZus{}label}\PY{o}{=}\PY{n}{colorbar\PYZus{}label}\PY{p}{)}
+    \PY{k}{return} \PY{n}{ax}
+\PY{k}{def} \PY{n+nf}{interaction\PYZus{}graph\PYZus{}fixed\PYZus{}layout}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{n}{cutoff}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,}\PY{n}{colorbar\PYZus{}label}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,}\PY{n}{fixed\PYZus{}layout}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,}\PY{n}{k}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,}\PY{n}{theta}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{45}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Visualization} \PY{k+kn}{import} \PY{n}{get\PYZus{}colordict}
+    \PY{k+kn}{from} \PY{n+nn}{numpy} \PY{k+kn}{import} \PY{n}{log10}
+    \PY{k}{def} \PY{n+nf}{fixed\PYZus{}node\PYZus{}name}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+        \PY{n}{f} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{[}\PY{n}{n}\PY{p}{]}
+        \PY{n}{rename} \PY{o}{=} \PY{n}{rename\PYZus{}fragment}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+        \PY{k}{return} \PY{n}{rename}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{subs\PYZus{}frag} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{sequences\PYZus{}to\PYZus{}fragments}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+    \PY{n}{remap}\PY{o}{=}\PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{n}{rename\PYZus{}fragment}\PY{p}{,}\PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{)}\PY{p}{)}
+    \PY{n}{interactions} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{subs\PYZus{}frag}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamiltonian}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{G}\PY{o}{=}\PY{n}{BioQM}\PY{o}{.}\PY{n}{Graph}\PY{p}{(}\PY{n}{restrict\PYZus{}to}\PY{o}{=}\PY{n}{subs\PYZus{}frag}\PY{p}{,}\PY{n}{bond\PYZus{}orders}\PY{o}{=}\PY{n}{sys}\PY{o}{.}\PY{n}{bond\PYZus{}orders}\PY{p}{,}\PY{n}{cutoff}\PY{o}{=}\PY{n}{cutoff}\PY{p}{,}
+                  \PY{n}{fragkeys}\PY{o}{=}\PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{,}\PY{n}{frag\PYZus{}labels}\PY{o}{=}\PY{n}{remap}\PY{p}{)}
+    \PY{n}{colord}\PY{o}{=}\PY{n}{get\PYZus{}colordict}\PY{p}{(}\PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{,}\PY{n}{field\PYZus{}vals}\PY{o}{=}\PY{n}{factor}\PY{o}{*}\PY{n}{interactions}\PY{p}{,}\PY{n}{vmin}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{185}\PY{p}{,}
+                         \PY{n}{colorcode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{viridis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{center\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    \PY{n}{colors}\PY{o}{=}\PY{p}{[}\PY{n}{colord}\PY{p}{[}\PY{n}{f}\PY{p}{]} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{]}
+    \PY{n}{layout} \PY{o}{=} \PY{n}{rotate\PYZus{}layout}\PY{p}{(}\PY{n}{nx}\PY{o}{.}\PY{n}{kamada\PYZus{}kawai\PYZus{}layout}\PY{p}{(}\PY{n}{G}\PY{o}{.}\PY{n}{nw}\PY{p}{)}\PY{p}{,}\PY{n}{theta}\PY{o}{=}\PY{n}{theta}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}     final\PYZus{}layout=layout}
+    \PY{n}{relayout}\PY{o}{=}\PY{p}{[}\PY{p}{]}
+    \PY{k}{if} \PY{n}{fixed\PYZus{}layout} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:}
+        \PY{k}{for} \PY{n}{node} \PY{o+ow}{in} \PY{n}{layout}\PY{p}{:}
+            \PY{n}{f} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{[}\PY{n}{node}\PY{p}{]}
+            \PY{k}{if} \PY{n}{f} \PY{o+ow}{in} \PY{n}{subs\PYZus{}frag}\PY{p}{:}
+                \PY{n}{relayout}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{node}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{for} \PY{n}{node} \PY{o+ow}{in} \PY{n}{layout}\PY{p}{:}
+            \PY{n}{rename} \PY{o}{=} \PY{n}{fixed\PYZus{}node\PYZus{}name}\PY{p}{(}\PY{n}{node}\PY{p}{)}
+            \PY{k}{if} \PY{n}{rename} \PY{o+ow}{in} \PY{n}{fixed\PYZus{}layout}\PY{p}{:}
+                \PY{n}{relayout}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{node}\PY{p}{)}
+                \PY{n}{layout}\PY{p}{[}\PY{n}{node}\PY{p}{]} \PY{o}{=} \PY{n}{fixed\PYZus{}layout}\PY{p}{[}\PY{n}{rename}\PY{p}{]}
+    \PY{n}{final\PYZus{}layout} \PY{o}{=} \PY{n}{nx}\PY{o}{.}\PY{n}{spring\PYZus{}layout}\PY{p}{(}\PY{n}{G}\PY{o}{.}\PY{n}{nw}\PY{p}{,}\PY{n}{pos}\PY{o}{=}\PY{n}{layout}\PY{p}{,}\PY{n}{fixed}\PY{o}{=}\PY{n}{relayout}\PY{p}{,}\PY{n}{k}\PY{o}{=}\PY{n}{k}\PY{p}{,}\PY{n}{seed}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+    \PY{n}{edge\PYZus{}colord} \PY{o}{=} \PY{n}{G}\PY{o}{.}\PY{n}{edge\PYZus{}colordict}\PY{p}{(}\PY{n}{colorcode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{copper\PYZus{}r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                   \PY{n}{field\PYZus{}vals}\PY{o}{=}\PY{n}{log10}\PY{p}{(}\PY{n}{G}\PY{o}{.}\PY{n}{edge\PYZus{}weights}\PY{p}{)}\PY{p}{,}\PY{n}{center\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    \PY{n}{G}\PY{o}{.}\PY{n}{display}\PY{p}{(}\PY{n}{layout}\PY{o}{=}\PY{n}{final\PYZus{}layout}\PY{p}{,}\PY{n}{colors}\PY{o}{=}\PY{n}{colors}\PY{p}{,}\PY{n}{axs}\PY{o}{=}\PY{n}{ax}\PY{p}{,}\PY{n}{colorbar\PYZus{}label}\PY{o}{=}\PY{n}{colorbar\PYZus{}label}\PY{p}{,}
+              \PY{n}{colorbar\PYZus{}mappable}\PY{o}{=}\PY{n}{colord}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}\PYZus{}mappable\PYZus{}\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{if} \PY{n}{colorbar\PYZus{}label} \PY{o+ow}{is} \PY{o+ow}{not} \PY{k+kc}{None} \PY{k}{else} \PY{k+kc}{None}\PY{p}{,}
+              \PY{n}{font\PYZus{}weight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{normal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{font\PYZus{}family}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sans\PYZhy{}serif}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{node\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,}\PY{n}{font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{,}
+              \PY{n}{edge\PYZus{}colors}\PY{o}{=}\PY{n}{edge\PYZus{}colord}\PY{p}{,}\PY{n}{edge\PYZus{}legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    \PY{k}{return} \PY{p}{[}\PY{p}{\PYZob{}}\PY{n}{fixed\PYZus{}node\PYZus{}name}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}\PY{n}{final\PYZus{}layout}\PY{p}{[}\PY{n}{n}\PY{p}{]} \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{relayout}\PY{p}{\PYZcb{}}\PY{p}{,}
+            \PY{n}{colord}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}\PYZus{}mappable\PYZus{}\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}\PY{n}{edge\PYZus{}colord}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}\PYZus{}mappable\PYZus{}\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{309}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{importlib} \PY{k+kn}{import} \PY{n}{reload}
+\PY{n}{reload}\PY{p}{(}\PY{n}{BioQM}\PY{p}{)}
+\PY{k+kn}{from} \PY{n+nn}{BigDFT} \PY{k+kn}{import} \PY{n}{Visualization} \PY{k}{as} \PY{n}{V}
+\PY{n}{reload}\PY{p}{(}\PY{n}{V}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{309}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<module 'BigDFT.Visualization' from
+'/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/BigDFT/Visualization.py'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{330}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{ticker} \PY{k+kn}{import} \PY{n}{ScalarFormatter}
+\PY{n}{colorbar\PYZus{}title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Nodes: Contact \PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Delta H\PYZdl{} Interaction (kJ/mol)}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{edge\PYZus{}colorbar\PYZus{}title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Edges: Fragment Bond Order (Log)}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,}\PY{l+m+mi}{16}\PY{p}{)}\PY{p}{)}
+\PY{n}{fixed\PYZus{}layout}\PY{o}{=}\PY{k+kc}{None}
+\PY{k}{for} \PY{n}{subs}\PY{p}{,}\PY{n}{ax} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n+nb}{sorted}\PY{p}{(}\PY{n}{pops}\PY{p}{)}\PY{p}{,}\PY{n}{axs}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{subs} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs13}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k}{continue}
+    \PY{n}{fixed\PYZus{}layout}\PY{p}{,}\PY{n}{mappable}\PY{p}{,}\PY{n}{edge\PYZus{}mappable}\PY{o}{=}\PY{n}{interaction\PYZus{}graph\PYZus{}fixed\PYZus{}layout}\PY{p}{(}\PY{n}{pops}\PY{p}{[}\PY{n}{subs}\PY{p}{]}\PY{p}{,}\PY{l+m+mf}{0.005}\PY{p}{,}\PY{n}{ax}\PY{p}{,}
+                                                \PY{c+c1}{\PYZsh{}colorbar\PYZus{}label=colorbar\PYZus{}title,}
+                                                \PY{n}{fixed\PYZus{}layout}\PY{o}{=}\PY{n}{fixed\PYZus{}layout}\PY{p}{,}\PY{n}{k}\PY{o}{=}\PY{l+m+mf}{0.22} \PY{k}{if} \PY{n}{subs} \PY{o}{!=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs05}\PY{l+s+s1}{\PYZsq{}} \PY{k}{else} \PY{l+m+mf}{0.25}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n}{subs}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{:}\PY{p}{]}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{24}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Now adding the colorbar}
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{cb}\PY{o}{=}\PY{n}{fig}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{n}{mappable}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{,}\PY{n}{pad}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,}\PY{n}{fraction}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,}\PY{n}{aspect}\PY{o}{=}\PY{l+m+mi}{35}\PY{p}{,}\PY{n}{shrink}\PY{o}{=}\PY{l+m+mf}{0.8}\PY{p}{)} \PY{c+c1}{\PYZsh{},anchor=(1.0,0.5))}
+\PY{n}{cb}\PY{o}{.}\PY{n}{set\PYZus{}label}\PY{p}{(}\PY{n}{label}\PY{o}{=}\PY{n}{colorbar\PYZus{}title}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n}{cb}\PY{o}{.}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+     \PY{n}{t}\PY{o}{.}\PY{n}{set\PYZus{}fontsize}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ecb}\PY{o}{=}\PY{n}{fig}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{n}{edge\PYZus{}mappable}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{,}\PY{n}{pad}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,}\PY{n}{fraction}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,}\PY{n}{aspect}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{,}\PY{n}{shrink}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{,}
+                 \PY{n+nb}{format}\PY{o}{=}\PY{n}{ScalarFormatter}\PY{p}{(}\PY{n}{useMathText}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}\PY{n}{orientation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horizontal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{},anchor=(1.0,0.0))}
+\PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n}{ecb}\PY{o}{.}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+     \PY{n}{t}\PY{o}{.}\PY{n}{set\PYZus{}fontsize}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ecb}\PY{o}{.}\PY{n}{set\PYZus{}label}\PY{p}{(}\PY{n}{label}\PY{o}{=}\PY{n}{edge\PYZus{}colorbar\PYZus{}title}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{331}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,}\PY{l+m+mi}{16}\PY{o}{/}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{subs}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs13}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{\PYZus{}}\PY{p}{,}\PY{n}{\PYZus{}}\PY{p}{,}\PY{n}{edge\PYZus{}mappable}\PY{o}{=}\PY{n}{interaction\PYZus{}graph\PYZus{}fixed\PYZus{}layout}\PY{p}{(}\PY{n}{pops}\PY{p}{[}\PY{n}{subs}\PY{p}{]}\PY{p}{,}\PY{l+m+mf}{0.005}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,}\PY{n}{fixed\PYZus{}layout}\PY{o}{=}\PY{n}{fixed\PYZus{}layout}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pep13)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{18}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{cb}\PY{o}{=}\PY{n}{fig}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{n}{mappable}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,}\PY{n}{pad}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,}\PY{n}{fraction}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,}\PY{n}{aspect}\PY{o}{=}\PY{l+m+mi}{35}\PY{p}{,}\PY{n}{shrink}\PY{o}{=}\PY{l+m+mf}{0.8}\PY{p}{)} \PY{c+c1}{\PYZsh{},anchor=(1.0,0.5))}
+\PY{n}{cb}\PY{o}{.}\PY{n}{set\PYZus{}label}\PY{p}{(}\PY{n}{label}\PY{o}{=}\PY{n}{colorbar\PYZus{}title}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n}{cb}\PY{o}{.}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+     \PY{n}{t}\PY{o}{.}\PY{n}{set\PYZus{}fontsize}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ecb}\PY{o}{=}\PY{n}{fig}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{n}{edge\PYZus{}mappable}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,}\PY{n}{pad}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{,}\PY{n}{fraction}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,}\PY{n}{aspect}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{,}\PY{n}{shrink}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{,}
+                 \PY{n+nb}{format}\PY{o}{=}\PY{n}{ScalarFormatter}\PY{p}{(}\PY{n}{useMathText}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}\PY{n}{orientation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horizontal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{},anchor=(1.0,0.0))}
+\PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n}{ecb}\PY{o}{.}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+     \PY{n}{t}\PY{o}{.}\PY{n}{set\PYZus{}fontsize}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{ecb}\PY{o}{.}\PY{n}{set\PYZus{}label}\PY{p}{(}\PY{n}{label}\PY{o}{=}\PY{n}{edge\PYZus{}colorbar\PYZus{}title}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{347}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{substrate\PYZus{}df\PYZus{}el}\PY{o}{=}\PY{n}{relevant\PYZus{}violin\PYZus{}plots\PYZus{}substrates}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ct\PYZus{}el}\PY{o}{=}\PY{n}{relevant\PYZus{}violin\PYZus{}plots}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{l+m+mf}{30.0}\PY{o}{/}\PY{n}{factor}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{average\PYZus{}heatmaps}\PY{p}{(}\PY{n}{pops}\PY{p}{,}\PY{n}{ct\PYZus{}el}\PY{p}{,}\PY{n}{subs\PYZus{}electrostatic}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coolwarm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.image.AxesImage at 0x7f052533b7b8>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \section{Comparison of the MD trajectories
+energies}\label{comparison-of-the-md-trajectories-energies}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{interaction\PYZus{}strengths\PYZus{}no\PYZus{}sol}\PY{p}{(}\PY{n}{fragments}\PY{p}{,} \PY{n}{target\PYZus{}fragments}\PY{p}{,} \PY{n}{pairwise\PYZus{}bo}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Define the interaction strengths of the fragment list with the}
+\PY{l+s+sd}{    others with respect to a set of target fragments}
+
+\PY{l+s+sd}{    Args:}
+\PY{l+s+sd}{        fragments (list) : the name of the fragments of the}
+\PY{l+s+sd}{            system in pairwise\PYZus{}bo}
+\PY{l+s+sd}{        target\PYZus{}fragments (list) : the fragments constituting the target region}
+\PY{l+s+sd}{        pairwise\PYZus{}bo (dict): the bond order between fragments}
+
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{        array: the  sum of the weigths of the interactions of the fragments}
+\PY{l+s+sd}{            in the target region}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+    \PY{n}{lookup} \PY{o}{=} \PY{p}{[}\PY{n}{fragments}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n}{frag}\PY{p}{)} \PY{k}{for} \PY{n}{frag} \PY{o+ow}{in} \PY{n}{target\PYZus{}fragments}\PY{p}{]}
+    \PY{n}{BOtot} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{fragments}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{ipair} \PY{o+ow}{in} \PY{n}{lookup}\PY{p}{:}
+        \PY{n}{frag\PYZus{}i} \PY{o}{=} \PY{n}{fragments}\PY{p}{[}\PY{n}{ipair}\PY{p}{]}
+        \PY{n}{BOtot} \PY{o}{+}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.5}\PY{o}{*} \PY{p}{(}\PY{n}{pairwise\PYZus{}bo}\PY{p}{[}\PY{n}{frag\PYZus{}i}\PY{p}{]}\PY{p}{[}\PY{n}{frag}\PY{p}{]} \PY{o}{+} \PY{n}{pairwise\PYZus{}bo}\PY{p}{[}\PY{n}{frag}\PY{p}{]}\PY{p}{[}\PY{n}{frag\PYZus{}i}\PY{p}{]}\PY{p}{)} \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SOL}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{frag} \PY{k}{else} \PY{l+m+mf}{0.0} \PY{k}{for} \PY{n}{frag} \PY{o+ow}{in} \PY{n}{fragments} \PY{p}{]}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}BOtot += np.array([pairwise\PYZus{}bo[frag\PYZus{}i][frag] + pairwise\PYZus{}bo[frag][frag\PYZus{}i] for frag in fragments])}
+    \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{lookup}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{n}{BOtot}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{lookup}\PY{p}{)}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nan}
+    \PY{k}{return} \PY{n}{BOtot}
+\PY{k}{def} \PY{n+nf}{interaction\PYZus{}on\PYZus{}target}\PY{p}{(}\PY{n}{pp}\PY{p}{,}\PY{n}{target}\PY{p}{,}\PY{n}{name}\PY{p}{,}\PY{n}{contact\PYZus{}region}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{numpy} \PY{k+kn}{import} \PY{n}{isnan}
+    \PY{k+kn}{from} \PY{n+nn}{ase}\PY{n+nn}{.}\PY{n+nn}{units} \PY{k+kn}{import} \PY{n}{Hartree}\PY{p}{,} \PY{n}{kcal}\PY{p}{,} \PY{n}{mol}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Stats} \PY{k+kn}{import} \PY{n}{clean\PYZus{}dataframe}
+    \PY{n}{factor} \PY{o}{=} \PY{n}{Hartree} \PY{o}{/} \PY{p}{(}\PY{n}{kcal}\PY{o}{/}\PY{n}{mol}\PY{p}{)}
+    \PY{n}{tgti}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{k}\PY{p}{,}\PY{n}{d}\PY{p}{,}\PY{n}{w} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{pp}\PY{o}{.}\PY{n}{sample\PYZus{}labels}\PY{p}{,}\PY{n}{pp}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{pp}\PY{o}{.}\PY{n}{weights}\PY{p}{)}\PY{p}{:}
+        \PY{n}{dd}\PY{o}{=}\PY{n}{clean\PYZus{}dataframe}\PY{p}{(}\PY{n}{d}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}dict}\PY{p}{(}\PY{p}{)}
+        \PY{n}{fragment\PYZus{}names} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{pp}\PY{o}{.}\PY{n}{feature\PYZus{}labels}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}ints=BioQM.interaction\PYZus{}strengths(fragment\PYZus{}names,target,dd)}
+        \PY{n}{ints}\PY{o}{=}\PY{n}{interaction\PYZus{}strengths\PYZus{}no\PYZus{}sol}\PY{p}{(}\PY{n}{fragment\PYZus{}names}\PY{p}{,}\PY{n}{target}\PY{p}{,}\PY{n}{dd}\PY{p}{)}
+        \PY{n}{tot\PYZus{}int} \PY{o}{=} \PY{n}{factor}\PY{o}{*}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{t} \PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n}{ints} \PY{k}{if} \PY{o+ow}{not} \PY{n}{isnan}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{)}
+        \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{k}\PY{p}{)} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{tgti}\PY{p}{:}
+            \PY{n}{tgti}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+        \PY{n}{tgti}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{o}{=}\PY{n}{tot\PYZus{}int}
+        \PY{n}{tgti}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{n}{name}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{w}
+        \PY{k}{if} \PY{n}{contact\PYZus{}region} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:} \PY{k}{continue}
+        \PY{n}{cr\PYZus{}int} \PY{o}{=} \PY{n}{factor}\PY{o}{*}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{t} \PY{k}{for} \PY{n}{t}\PY{p}{,}\PY{n}{n} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{ints}\PY{p}{,}\PY{n}{fragment\PYZus{}names}\PY{p}{)} \PY{k}{if} \PY{o+ow}{not} \PY{n}{isnan}\PY{p}{(}\PY{n}{t}\PY{p}{)} \PY{o+ow}{and} \PY{n}{n} \PY{o+ow}{in} \PY{n}{contact\PYZus{}region}\PY{p}{)}
+        \PY{n}{tgti}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{n}{name}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}contact}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{cr\PYZus{}int}
+    \PY{k}{return} \PY{n}{tgti}
+\PY{k}{def} \PY{n+nf}{fragmented\PYZus{}interactions}\PY{p}{(}\PY{n}{pop}\PY{p}{,}\PY{n}{cr}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{pandas} \PY{k+kn}{import} \PY{n}{DataFrame}
+    \PY{k+kn}{from} \PY{n+nn}{futile}\PY{n+nn}{.}\PY{n+nn}{Utils} \PY{k+kn}{import} \PY{n}{dict\PYZus{}merge}
+    \PY{n}{all\PYZus{}fi}\PY{o}{=}\PY{p}{[}\PY{p}{]}
+    \PY{k}{for} \PY{n}{name} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic\PYZus{}interactions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+        \PY{k}{if} \PY{n}{name} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{pop}\PY{o}{.}\PY{n}{populations}\PY{p}{:} \PY{k}{continue}
+        \PY{n}{all\PYZus{}fi}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{interaction\PYZus{}on\PYZus{}target}\PY{p}{(}\PY{n}{pop}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{,}\PY{n}{pop}\PY{o}{.}\PY{n}{sequences\PYZus{}to\PYZus{}fragments}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{n}{name}\PY{p}{,}\PY{n}{cr}\PY{p}{)}\PY{p}{)}
+    \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{all\PYZus{}fi}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{2}\PY{p}{:} \PY{n}{dict\PYZus{}merge}\PY{p}{(}\PY{n}{dest}\PY{o}{=}\PY{n}{all\PYZus{}fi}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{src}\PY{o}{=}\PY{n}{all\PYZus{}fi}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{all\PYZus{}fi}\PY{o}{=}\PY{n}{all\PYZus{}fi}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{k}{return} \PY{n}{DataFrame}\PY{p}{(}\PY{n}{all\PYZus{}fi}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{interaction\PYZus{}energies}\PY{p}{(}\PY{n}{pop}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{pandas} \PY{k+kn}{import} \PY{n}{DataFrame}
+    \PY{n}{pp}\PY{o}{=}\PY{n}{pop}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{energies}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{eints}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{k}\PY{p}{,}\PY{n}{v}\PY{p}{,}\PY{n}{w} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{pp}\PY{o}{.}\PY{n}{sample\PYZus{}labels}\PY{p}{,}\PY{n}{pp}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{pp}\PY{o}{.}\PY{n}{weights}\PY{p}{)}\PY{p}{:}
+        \PY{n}{eints}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{]}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{kk}\PY{p}{:} \PY{n}{vv}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{k}{for} \PY{n}{kk}\PY{p}{,}\PY{n}{vv} \PY{o+ow}{in} \PY{n}{v}\PY{o}{.}\PY{n}{to\PYZus{}dict}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+        \PY{n}{eints}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{k}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weights}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{n}{w}
+    \PY{k}{return} \PY{n}{DataFrame}\PY{p}{(}\PY{n}{eints}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{polaris\PYZus{}interactions}\PY{p}{(}\PY{n}{filename}\PY{p}{,}\PY{n}{sheet}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{pandas} \PY{k+kn}{import} \PY{n}{read\PYZus{}excel}
+    \PY{n}{tt} \PY{o}{=} \PY{n}{read\PYZus{}excel}\PY{p}{(}\PY{n}{filename}\PY{p}{,}\PY{n}{header}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{index\PYZus{}col}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{sheet\PYZus{}name}\PY{o}{=}\PY{n}{sheet}\PY{p}{)}
+    \PY{k}{return} \PY{n}{tt}\PY{p}{[}\PY{p}{[} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{∆U}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}  \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{∆U.1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Polaris}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}vdW}\PY{l+s+s1}{\PYZsq{}} \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.1}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{x} \PY{k}{else} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{substrate\PYZus{}interaction\PYZus{}energies}\PY{p}{(}\PY{n}{name}\PY{p}{,}\PY{n}{pops}\PY{p}{,}\PY{n}{cr}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{pandas} \PY{k+kn}{import} \PY{n}{DataFrame}
+    \PY{n}{tt1}\PY{o}{=}\PY{n}{interaction\PYZus{}energies}\PY{p}{(}\PY{n}{pops}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{)}
+    \PY{n}{tt2}\PY{o}{=}\PY{n}{polaris\PYZus{}interactions}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data\PYZus{}substrats\PYZus{}oxford\PYZus{}polaris.xlsx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{name}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{substrat\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+    \PY{n}{tt3}\PY{o}{=}\PY{n}{fragmented\PYZus{}interactions}\PY{p}{(}\PY{n}{pops}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{p}{,}\PY{n}{cr}\PY{p}{)}
+    \PY{n}{wgts} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tot.Weights}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{\PYZob{}}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{:}\PY{n}{w} \PY{k}{for} \PY{n}{i}\PY{p}{,}\PY{n}{w} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{pops}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{charge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{weights}\PY{p}{)}\PY{p}{\PYZcb{}}\PY{p}{\PYZcb{}}
+    \PY{n}{d1}\PY{o}{=}\PY{n}{tt1}\PY{o}{.}\PY{n}{to\PYZus{}dict}\PY{p}{(}\PY{p}{)}
+    \PY{n}{d2}\PY{o}{=}\PY{n}{tt2}\PY{o}{.}\PY{n}{to\PYZus{}dict}\PY{p}{(}\PY{p}{)}
+    \PY{n}{d3}\PY{o}{=}\PY{n}{tt3}\PY{o}{.}\PY{n}{to\PYZus{}dict}\PY{p}{(}\PY{p}{)}
+    \PY{n}{d2}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{d1}\PY{p}{)}
+    \PY{n}{d2}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{wgts}\PY{p}{)}
+    \PY{n}{d2}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{d3}\PY{p}{)}
+    \PY{k}{return} \PY{n}{DataFrame}\PY{p}{(}\PY{n}{d2}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{weight\PYZus{}av}\PY{p}{(}\PY{n}{df}\PY{p}{,}\PY{n}{keys}\PY{p}{,}\PY{n}{wgtkey}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{numpy} \PY{k+kn}{import} \PY{n}{sqrt}
+    \PY{n}{wa}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{wgt}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{wgtkey}\PY{p}{]}
+    \PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{n}{keys}\PY{p}{:}
+        \PY{n}{etot} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{key}\PY{p}{]}
+        \PY{n}{emean} \PY{o}{=} \PY{p}{(}\PY{n}{wgt}\PY{o}{*}\PY{n}{etot}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{/}\PY{n}{wgt}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+        \PY{n}{std} \PY{o}{=} \PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{wgt}\PY{o}{*}\PY{n}{etot}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{/}\PY{n}{wgt}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{emean}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n}{wa}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{n}{emean}\PY{p}{,}\PY{n}{std}\PY{p}{)}
+    \PY{k}{return} \PY{n}{wa}
+\PY{k}{def} \PY{n+nf}{weighted\PYZus{}avgs}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:}
+    \PY{n}{wa}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weights}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{df}\PY{p}{:}
+        \PY{n}{wa}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{weight\PYZus{}av}\PY{p}{(}\PY{n}{df}\PY{p}{,}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{QM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vdW}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OMM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{E\PYZus{}el\PYZhy{}app}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weights}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+        \PY{n}{wa}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{weight\PYZus{}av}\PY{p}{(}\PY{n}{df}\PY{p}{,}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Polaris}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Polaris\PYZhy{}vdW}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tot.Weights}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+    \PY{n}{wa}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{weight\PYZus{}av}\PY{p}{(}\PY{n}{df}\PY{p}{,}\PY{p}{[}\PY{n}{i} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns} 
+                            \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{approx}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{i} \PY{o+ow}{or} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{i} \PY{o+ow}{or} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{i}\PY{p}{]}\PY{p}{,}
+                        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions\PYZhy{}weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{wa}
+\PY{k}{def} \PY{n+nf}{plain\PYZus{}avgs}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:}
+    \PY{n}{pa}\PY{o}{=}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{dfa}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+        \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eight}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{key}\PY{p}{:} \PY{k}{continue}
+        \PY{n}{pa}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{o}{=}\PY{p}{(}\PY{n}{dfa}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{dfa}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{std}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{k}{return} \PY{n}{pa}
+\PY{k}{def} \PY{n+nf}{extract\PYZus{}averages}\PY{p}{(}\PY{n}{dfs}\PY{p}{)}\PY{p}{:}
+    \PY{n}{tot\PYZus{}avgs}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weighted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{n}{dfs}\PY{p}{:}
+        \PY{n}{df} \PY{o}{=} \PY{n}{dfs}\PY{p}{[}\PY{n}{key}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{}df[\PYZsq{}QM\PYZhy{}approx\PYZsq{}]=0.5*(df[\PYZsq{}interactions\PYZsq{}]+df[\PYZsq{}electrostatic\PYZsq{}])}
+        \PY{c+c1}{\PYZsh{}df[\PYZsq{}QM\PYZhy{}approx1\PYZsq{}]=df[\PYZsq{}interactions\PYZsq{}]}
+        \PY{c+c1}{\PYZsh{}df[\PYZsq{}QM\PYZhy{}approx2\PYZsq{}]=0.25*df[\PYZsq{}interactions\PYZsq{}]+0.5*df[\PYZsq{}electrostatic\PYZsq{}]}
+        \PY{c+c1}{\PYZsh{}df[\PYZsq{}QM\PYZhy{}approx3\PYZsq{}]=0.5*df[\PYZsq{}electrostatic\PYZsq{}]}
+        \PY{c+c1}{\PYZsh{}reorder\PYZus{}avgs(tot\PYZus{}avgs[\PYZsq{}weighted\PYZsq{}],weighted\PYZus{}avgs(df))}
+        \PY{c+c1}{\PYZsh{}reorder\PYZus{}avgs(tot\PYZus{}avgs[\PYZsq{}plain\PYZsq{}],plainweighted\PYZus{}avgs(df))}
+        \PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{val} \PY{o+ow}{in} \PY{n}{weighted\PYZus{}avgs}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{tot\PYZus{}avgs}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weighted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{n}{val}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+            \PY{n}{tot\PYZus{}avgs}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weighted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{k}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}std}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{n}{val}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{val} \PY{o+ow}{in} \PY{n}{plain\PYZus{}avgs}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{tot\PYZus{}avgs}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{n}{val}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+            \PY{n}{tot\PYZus{}avgs}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{k}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}std}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{n}{val}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{k}{return} \PY{n}{tot\PYZus{}avgs}
+\PY{k}{def} \PY{n+nf}{scatterplot}\PY{p}{(}\PY{n}{dfs}\PY{p}{,}\PY{n}{kind}\PY{p}{,}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{n}{colors}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs01}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs02}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs05}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs13}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{orange}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}
+    \PY{n}{df} \PY{o}{=} \PY{n}{dfs}\PY{p}{[}\PY{n}{kind}\PY{p}{]}
+    \PY{n}{cols} \PY{o}{=} \PY{p}{[}\PY{n}{colors}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{index}\PY{p}{]} 
+    \PY{k}{return} \PY{n}{df}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{o}{=}\PY{n}{y}\PY{p}{,}\PY{n}{xerr}\PY{o}{=}\PY{n}{x}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}std}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{yerr}\PY{o}{=}\PY{n}{y}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}std}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{c}\PY{o}{=}\PY{n}{cols}\PY{p}{,}\PY{n}{linewidths}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{full\PYZus{}dfs}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{key}\PY{p}{:} \PY{n}{substrate\PYZus{}interaction\PYZus{}energies}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{n}{pops}\PY{p}{,}\PY{k+kc}{None}\PY{p}{)} \PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{n}{pops}\PY{p}{\PYZcb{}}
+\PY{n}{dfs}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{kind}\PY{p}{:} \PY{n}{DataFrame}\PY{p}{(}\PY{n}{extract\PYZus{}averages}\PY{p}{(}\PY{n}{full\PYZus{}dfs}\PY{p}{)}\PY{p}{[}\PY{n}{kind}\PY{p}{]}\PY{p}{)} \PY{k}{for} \PY{n}{kind} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weighted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,}\PY{n}{axs}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{concat}\PY{p}{(}\PY{n}{full\PYZus{}dfs}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OMM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{scatterplot}\PY{p}{(}\PY{n}{dfs}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weighted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OMM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DFT Interaction Energies (kcal/mol)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FF Interaction Energies (kcal/mol)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,}\PY{n}{axs}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{concat}\PY{p}{(}\PY{n}{full\PYZus{}dfs}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OMM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic\PYZus{}interactions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{scatterplot}\PY{p}{(}\PY{n}{dfs}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weighted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic\PYZus{}interactions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OMM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Electrostatic Interaction (kcal/mol)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FF Interaction Energies (kcal/mol)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,}\PY{n}{axs}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{concat}\PY{p}{(}\PY{n}{full\PYZus{}dfs}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OMM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Polaris}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{scatterplot}\PY{p}{(}\PY{n}{dfs}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weighted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Polaris}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OMM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Polaris (MD) Interaction Energies (kcal/mol)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FF Interaction Energies (kcal/mol)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \section{Data of the XChem fragment
+analysis}\label{data-of-the-xchem-fragment-analysis}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{357}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{XChem} \PY{o}{=} \PY{n}{BioQM}\PY{o}{.}\PY{n}{BioSystemPopulation}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XChem\PYZhy{}populations.tar.gz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{options}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{sequence\PYZus{}from\PYZus{}fragments}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}\PY{n}{disable\PYZus{}warnings}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/BigDFT/BioQM.py:680: UserWarning: Some atoms were not matchedUnable to
+match atom\{'sym': 'H', 'r': [6.351, -3.914, 22.4], 'name': 'H', 'units':
+'angstroem'\}
+  warn('Some atoms were not matched' + str(e))
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0:  \# weight=1.0
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/BigDFT/BioQM.py:680: UserWarning: Some atoms were not matchedUnable to
+match atom\{'sym': 'H', 'r': [6.351, -3.914, 22.4], 'name': 'H', 'units':
+'angstroem'\}
+  warn('Some atoms were not matched' + str(e))
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+  - bond\_orders
+  - interactions
+  - electrostatic\_interactions
+  - system\_dfs
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{379}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{BigDFT} \PY{k+kn}{import} \PY{n}{Systems} \PY{k}{as} \PY{n}{S}\PY{p}{,} \PY{n}{PostProcessing} \PY{k}{as} \PY{n}{P}\PY{p}{,} \PY{n}{Atoms} \PY{k}{as} \PY{n}{A}
+\PY{n}{reload}\PY{p}{(}\PY{n}{S}\PY{p}{)}
+\PY{n}{reload}\PY{p}{(}\PY{n}{P}\PY{p}{)}
+\PY{n}{reload}\PY{p}{(}\PY{n}{A}\PY{p}{)}
+\PY{n}{reload}\PY{p}{(}\PY{n}{BioQM}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{379}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<module 'BigDFT.BioQM' from
+'/home/genovese/binaries/client/install/lib/python3.6/site-
+packages/BigDFT/BioQM.py'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{361}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{\PYZus{}}\PY{o}{=}\PY{n}{XChem}\PY{o}{.}\PY{n}{examine}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_30_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{load\PYZus{}from\PYZus{}serialized\PYZus{}dict}\PY{p}{(}\PY{n}{atdict}\PY{p}{,} \PY{n}{preserve\PYZus{}keys}\PY{o}{=}\PY{p}{[}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Atoms} \PY{k+kn}{import} \PY{n}{Atom}
+    \PY{n}{raw\PYZus{}keys} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{qel\PYZus{}0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{n}{preserve\PYZus{}keys}
+    \PY{n}{xyz} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{z}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{newdict} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{reworked\PYZus{}keys} \PY{o}{=} \PY{n+nb}{set}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{key}\PY{p}{,} \PY{n}{val} \PY{o+ow}{in} \PY{n}{atdict}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{key} \PY{o+ow}{or} \PY{n}{key} \PY{o+ow}{in} \PY{n}{raw\PYZus{}keys}\PY{p}{:}
+            \PY{n}{newdict}\PY{p}{[}\PY{n}{key}\PY{p}{]} \PY{o}{=} \PY{n}{val}
+            \PY{k}{continue}
+        \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coord}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{key}\PY{p}{:}
+            \PY{n}{ipos} \PY{o}{=} \PY{n}{xyz}\PY{o}{.}\PY{n}{index}\PY{p}{(}\PY{n}{key}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+            \PY{n}{newkey} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{newkey}\PY{p}{,} \PY{n}{ipos} \PY{o}{=} \PY{n}{key}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{reworked\PYZus{}keys}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{newkey}\PY{p}{)}
+        \PY{n}{newdict}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{newkey}\PY{p}{,} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{ipos}\PY{p}{)}\PY{p}{,} \PY{n}{val}\PY{p}{)}
+    \PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{n}{reworked\PYZus{}keys}\PY{p}{:}
+        \PY{n}{newval} \PY{o}{=} \PY{p}{[}\PY{n}{newdict}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{p}{[}\PY{n}{ipos}\PY{p}{]} \PY{k}{for} \PY{n}{ipos} \PY{o+ow}{in} \PY{n+nb}{sorted}\PY{p}{(}\PY{n+nb}{list}\PY{p}{(}\PY{n}{newdict}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{]}
+        \PY{n}{newdict}\PY{p}{[}\PY{n}{key}\PY{p}{]} \PY{o}{=} \PY{n}{newval}
+    \PY{k}{return} \PY{n}{Atom}\PY{p}{(}\PY{n}{newdict}\PY{p}{)}
+        
+\PY{k}{def} \PY{n+nf}{system\PYZus{}from\PYZus{}df}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Systems} \PY{k+kn}{import} \PY{n}{System}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Fragments} \PY{k+kn}{import} \PY{n}{Fragment}
+    
+    \PY{n}{dft} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
+    \PY{n}{sys}\PY{o}{=}\PY{n}{System}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{at} \PY{o+ow}{in} \PY{n}{dft}\PY{p}{:}
+        \PY{n}{atdict} \PY{o}{=} \PY{n}{dft}\PY{p}{[}\PY{n}{at}\PY{p}{]}\PY{o}{.}\PY{n}{to\PYZus{}dict}\PY{p}{(}\PY{p}{)}
+        \PY{n}{frag} \PY{o}{=} \PY{n}{atdict}\PY{o}{.}\PY{n}{pop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{frag}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{at} \PY{o}{=} \PY{n}{load\PYZus{}from\PYZus{}serialized\PYZus{}dict}\PY{p}{(}\PY{n}{atdict}\PY{p}{)}
+        \PY{n}{sys}\PY{o}{.}\PY{n}{setdefault}\PY{p}{(}\PY{n}{frag}\PY{p}{,}\PY{n}{Fragment}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{at}\PY{p}{)}
+    \PY{k}{return} \PY{n}{sys}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Reconstitute the population data as they are supposed to be defined
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{374}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{new\PYZus{}populations}\PY{p}{(}\PY{n}{populations}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Stats} \PY{k+kn}{import} \PY{n}{Population}
+    \PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Systems} \PY{k+kn}{import} \PY{n}{system\PYZus{}from\PYZus{}df}
+    \PY{n}{oldpop} \PY{o}{=} \PY{n}{populations}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{system\PYZus{}dfs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{pop\PYZus{}sys} \PY{o}{=} \PY{n}{Population}\PY{p}{(}\PY{n}{labels}\PY{o}{=}\PY{n}{oldpop}\PY{o}{.}\PY{n}{feature\PYZus{}labels}\PY{p}{)}
+    \PY{n}{pop\PYZus{}el} \PY{o}{=} \PY{n}{Population}\PY{p}{(}\PY{n}{labels}\PY{o}{=}\PY{n}{oldpop}\PY{o}{.}\PY{n}{feature\PYZus{}labels}\PY{p}{)}
+    \PY{k}{for} \PY{n}{df}\PY{p}{,}\PY{n}{w}\PY{p}{,}\PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{oldpop}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{oldpop}\PY{o}{.}\PY{n}{weights}\PY{p}{,}\PY{n}{oldpop}\PY{o}{.}\PY{n}{sample\PYZus{}labels}\PY{p}{)}\PY{p}{:}
+        \PY{n}{sys}\PY{o}{=}\PY{n}{system\PYZus{}from\PYZus{}df}\PY{p}{(}\PY{n}{df}\PY{p}{)}
+        \PY{n}{pop\PYZus{}sys}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{sys}\PY{o}{.}\PY{n}{df}\PY{p}{,}\PY{n}{weight}\PY{o}{=}\PY{n}{w}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{n}{l}\PY{p}{)}
+        \PY{n}{pop\PYZus{}el}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{sys}\PY{o}{.}\PY{n}{electrostatic\PYZus{}interactions}\PY{p}{,}\PY{n}{weight}\PY{o}{=}\PY{n}{w}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{n}{l}\PY{p}{)}
+    \PY{k}{return} \PY{n}{pop\PYZus{}sys}\PY{p}{,}\PY{n}{pop\PYZus{}el}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{375}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pop\PYZus{}sys}\PY{p}{,} \PY{n}{pop\PYZus{}el} \PY{o}{=} \PY{n}{new\PYZus{}populations}\PY{p}{(}\PY{n}{XChem}\PY{o}{.}\PY{n}{populations}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        ValueError                                Traceback (most recent call last)
+
+        <ipython-input-375-bd1f6190e09a> in <module>
+    ----> 1 pop\_sys, pop\_el = new\_populations(XChem.populations)
+    
+
+        <ipython-input-374-7aa44faadd56> in new\_populations(populations)
+          7     for df,w,l in zip(oldpop.datas,oldpop.weights,oldpop.sample\_labels):
+          8         sys=system\_from\_df(df)
+    ----> 9         pop\_sys.append(data=sys.df,weight=w,label=l)
+         10         pop\_el.append(data=sys.electrostatic\_interactions,weight=w,label=l)
+         11     return pop\_sys,pop\_el
+
+
+        \textasciitilde{}/binaries/client/install/lib/python3.6/site-packages/BigDFT/Systems.py in df(self)
+        269     def df(self):
+        270         if not hasattr(self, '\_df'):
+    --> 271             self.\_df = self.to\_dataframe()
+        272         return self.\_df
+        273 
+
+
+        \textasciitilde{}/binaries/client/install/lib/python3.6/site-packages/BigDFT/Systems.py in to\_dataframe(self, **kwargs)
+        283         from pandas import DataFrame as DF
+        284         df = DF(self.serialize(**kwargs))
+    --> 285         validate\_dataframe\_representation(self, df)
+        286         return df
+        287 
+
+
+        \textasciitilde{}/binaries/client/install/lib/python3.6/site-packages/BigDFT/Systems.py in validate\_dataframe\_representation(sys, df)
+        799         dfarr = all\_coords[ist:ien]
+        800         for at, coords in zip(sys[frag].atoms, dfarr):
+    --> 801             rxyz = np.array(at.get\_position('bohr'))
+        802             delta = rxyz - coords
+        803             if np.linalg.norm(delta) > 1.e-3:  \# this means angstroem
+
+
+        \textasciitilde{}/binaries/client/install/lib/python3.6/site-packages/BigDFT/Atoms.py in get\_position(self, units, cell)
+        356         else:
+        357             pos = self.store['sym']
+    --> 358         pos = array([float(x) for x in pos])
+        359 
+        360         \# Make sure the units are correct
+
+
+        \textasciitilde{}/binaries/client/install/lib/python3.6/site-packages/BigDFT/Atoms.py in <listcomp>(.0)
+        356         else:
+        357             pos = self.store['sym']
+    --> 358         pos = array([float(x) for x in pos])
+        359 
+        360         \# Make sure the units are correct
+
+
+        ValueError: could not convert string to float: 'N'
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{376}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{=}\PY{n}{XChem}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{system\PYZus{}dfs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{datas}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{377}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sys}\PY{o}{=}\PY{n}{system\PYZus{}from\PYZus{}df}\PY{p}{(}\PY{n}{df}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{378}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sys}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A\PYZhy{}SER:1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{store}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{378}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\{'force\_0': 0.003471333436862,
+ 'force\_1': -0.003640413109496,
+ 'force\_2': -0.007194677727088,
+ 'multipole character': 'net',
+ 'name': 'N',
+ 'q0\_0': -0.16403799999999968,
+ 'q1\_0': 0.1171047,
+ 'q1\_1': 0.1111218,
+ 'q1\_2': -0.05912271,
+ 'q2\_0': -0.4372705,
+ 'q2\_1': -0.5500069,
+ 'q2\_2': 0.2742531,
+ 'q2\_3': -0.1499954,
+ 'q2\_4': -0.1655729,
+ 'sigma\_0': 0.284,
+ 'sigma\_1': 0.284,
+ 'sigma\_2': 0.284,
+ 'sym': 'N',
+ 'units': 'angstroem',
+ 'x\_coord': -1.22076307646903,
+ 'y\_coord': 12.678172569707,
+ 'z\_coord': -28.89958162297349,
+ 'nzion': 5.0,
+ 'qel\_0': -5.164038\}
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{367}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{system\PYZus{}from\PYZus{}df}\PY{p}{(}\PY{n}{df}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{367}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<BigDFT.Systems.System at 0x7f6fbf8410b8>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{383}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{sample\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{fragments}\PY{p}{,}\PY{n}{target}\PY{p}{,}\PY{n}{data}\PY{p}{)}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{numpy} \PY{k+kn}{import} \PY{n}{isnan}\PY{p}{,} \PY{n}{array}
+    \PY{n}{interactions} \PY{o}{=} \PY{n}{BioQM}\PY{o}{.}\PY{n}{interaction\PYZus{}strengths}\PY{p}{(}\PY{n}{fragments}\PY{p}{,} \PY{n}{target}\PY{p}{,} \PY{n}{data}\PY{p}{)}
+    \PY{n}{environment} \PY{o}{=} \PY{p}{[}\PY{n}{f} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{fragments} \PY{k}{if} \PY{n}{f} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{target}\PY{p}{]}
+    \PY{n}{feedback} \PY{o}{=} \PY{n}{BioQM}\PY{o}{.}\PY{n}{interaction\PYZus{}strengths}\PY{p}{(}\PY{n}{fragments}\PY{p}{,} \PY{n}{environment}\PY{p}{,} \PY{n}{data}\PY{p}{)}
+    \PY{k}{assert} \PY{n+nb}{abs}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{interactions}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{isnan}\PY{p}{(}\PY{n}{interactions}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n+nb}{sum}\PY{p}{(}
+            \PY{n}{feedback}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{isnan}\PY{p}{(}\PY{n}{feedback}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mf}{1.e\PYZhy{}4}
+    \PY{k}{return} \PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{f} \PY{k}{if} \PY{n}{frag} \PY{o+ow}{in} \PY{n}{target} \PY{k}{else} \PY{n}{i} \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{f}\PY{p}{,} \PY{n}{frag} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}
+                \PY{n}{interactions}\PY{p}{,} \PY{n}{feedback}\PY{p}{,} \PY{n}{fragments}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Systems} \PY{k+kn}{import} \PY{n}{system\PYZus{}from\PYZus{}df}
+\PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{BioQM} \PY{k+kn}{import} \PY{n}{\PYZus{}interaction\PYZus{}and\PYZus{}feedback}
+\PY{n}{new\PYZus{}electrostatic} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{n}{new\PYZus{}contact} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{n}{pop\PYZus{}sys} \PY{o}{=} \PY{n}{XChem}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{system\PYZus{}dfs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{k}{for} \PY{n}{lb}\PY{p}{,}\PY{n}{df}\PY{p}{,}\PY{n}{ct} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{pop\PYZus{}sys}\PY{o}{.}\PY{n}{sample\PYZus{}labels}\PY{p}{,}\PY{n}{pop\PYZus{}sys}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{XChem}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{datas}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print} \PY{p}{(}\PY{n}{lb}\PY{p}{)}
+    \PY{n}{sys}\PY{o}{=}\PY{n}{system\PYZus{}from\PYZus{}df}\PY{p}{(}\PY{n}{df}\PY{p}{)}
+    \PY{n}{target} \PY{o}{=} \PY{p}{[}\PY{n}{f} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{sys} \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LIG}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{f}\PY{p}{]}
+    \PY{n}{fragments}\PY{o}{=}\PY{n+nb}{list}\PY{p}{(}\PY{n}{sys}\PY{p}{)}
+    \PY{n}{el}\PY{o}{=}\PY{n}{sys}\PY{o}{.}\PY{n}{electrostatic\PYZus{}interactions}
+    \PY{n}{elec} \PY{o}{=} \PY{n}{sample\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{fragments}\PY{p}{,}\PY{n}{target}\PY{p}{,}\PY{n}{el}\PY{p}{)}
+    \PY{n}{contact}\PY{o}{=} \PY{n}{sample\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{fragments}\PY{p}{,}\PY{n}{target}\PY{p}{,}\PY{n}{ct}\PY{p}{)}    
+    \PY{n}{new\PYZus{}electrostatic}\PY{p}{[}\PY{n}{lb}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{f}\PY{p}{:} \PY{n}{e} \PY{k}{for} \PY{n}{e}\PY{p}{,}\PY{n}{f} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{elec}\PY{p}{,}\PY{n}{fragments}\PY{p}{)}\PY{p}{\PYZcb{}}
+    \PY{n}{new\PYZus{}contact}\PY{p}{[}\PY{n}{lb}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{f}\PY{p}{:} \PY{n}{e} \PY{k}{for} \PY{n}{e}\PY{p}{,}\PY{n}{f} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{contact}\PY{p}{,}\PY{n}{fragments}\PY{p}{)}\PY{p}{\PYZcb{}}    
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+x1392
+x1412
+x0705
+x1418
+x0708
+x0426
+x0425
+x0387
+x1093
+x0305
+x1308
+x1012
+x1493
+x0540
+x0946
+x1119
+x1402
+x1351
+x0736
+x0734
+x0731
+x0434
+x1086
+x1101-1
+x1101-0
+x1002
+x0336
+x0771
+x1311
+x0830
+x0831
+x1249
+x0689
+x0195
+x0194
+x1425
+x1132
+x1336
+x0759
+x0755
+x0752
+x1235
+x0350
+x1237
+x0354
+x0692
+x0991
+x0995
+x0669
+x1458
+x0749
+x1348
+x1187
+x0464
+x1226
+x1334
+x0678
+x0104
+x0376
+x0107
+x0786
+x1358
+x0770
+x0774
+x0478
+x0874
+x0390
+x0978
+x0769
+x1077
+x1478
+x0177
+x0072
+x0981
+x1163
+x1385
+x1384
+x1386
+x1380
+x1382
+x0887
+x0499
+x0967
+x0161
+x0398
+x0165
+x0395
+x0397
+x1374
+x1375
+x0691
+x0820
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{new\PYZus{}contact} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{lb}\PY{p}{,}\PY{n}{df}\PY{p}{,}\PY{n}{el} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{pop\PYZus{}sys}\PY{o}{.}\PY{n}{sample\PYZus{}labels}\PY{p}{,}\PY{n}{pop\PYZus{}sys}\PY{o}{.}\PY{n}{datas}\PY{p}{,}\PY{n}{XChem}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{interactions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{datas}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print} \PY{p}{(}\PY{n}{lb}\PY{p}{)}
+    \PY{n}{sys}\PY{o}{=}\PY{n}{system\PYZus{}from\PYZus{}df}\PY{p}{(}\PY{n}{df}\PY{p}{)}
+    \PY{n}{target} \PY{o}{=} \PY{p}{[}\PY{n}{f} \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{sys} \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LIG}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{f}\PY{p}{]}
+    \PY{n}{fragments}\PY{o}{=}\PY{n+nb}{list}\PY{p}{(}\PY{n}{sys}\PY{p}{)}
+    \PY{n}{contact}\PY{o}{=} \PY{n}{sample\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{fragments}\PY{p}{,}\PY{n}{target}\PY{p}{,}\PY{n}{el}\PY{p}{)}
+    \PY{n}{new\PYZus{}contact}\PY{p}{[}\PY{n}{lb}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{f}\PY{p}{:} \PY{n}{e} \PY{k}{for} \PY{n}{e}\PY{p}{,}\PY{n}{f} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{contact}\PY{p}{,}\PY{n}{fragments}\PY{p}{)}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+x1392
+x1412
+x0705
+x1418
+x0708
+x0426
+x0425
+x0387
+x1093
+x0305
+x1308
+x1012
+x1493
+x0540
+x0946
+x1119
+x1402
+x1351
+x0736
+x0734
+x0731
+x0434
+x1086
+x1101-1
+x1101-0
+x1002
+x0336
+x0771
+x1311
+x0830
+x0831
+x1249
+x0689
+x0195
+x0194
+x1425
+x1132
+x1336
+x0759
+x0755
+x0752
+x1235
+x0350
+x1237
+x0354
+x0692
+x0991
+x0995
+x0669
+x1458
+x0749
+x1348
+x1187
+x0464
+x1226
+x1334
+x0678
+x0104
+x0376
+x0107
+x0786
+x1358
+x0770
+x0774
+x0478
+x0874
+x0390
+x0978
+x0769
+x1077
+x1478
+x0177
+x0072
+x0981
+x1163
+x1385
+x1384
+x1386
+x1380
+x1382
+x0887
+x0499
+x0967
+x0161
+x0398
+x0165
+x0395
+x0397
+x1374
+x1375
+x0691
+x0820
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{384}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{represent\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{n}{criteria}\PY{p}{)}\PY{p}{:}
+    \PY{n}{substrate} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{sequences\PYZus{}to\PYZus{}fragments}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+    \PY{n}{data} \PY{o}{=} \PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{target}\PY{o}{=}\PY{n}{substrate}\PY{p}{,}\PY{n}{criteria}\PY{o}{=}\PY{n}{criteria}\PY{p}{)}
+    \PY{k}{return} \PY{p}{\PYZob{}}\PY{n}{f}\PY{p}{:} \PY{n}{e} \PY{k}{for} \PY{n}{e}\PY{p}{,}\PY{n}{f} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{data}\PY{p}{,}\PY{n}{sys}\PY{o}{.}\PY{n}{fragment\PYZus{}names}\PY{p}{)}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{name}\PY{p}{,}\PY{n}{sys} \PY{o+ow}{in} \PY{n}{pops}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{new\PYZus{}contact}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{o}{=}\PY{n}{represent\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hamiltonian}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{new\PYZus{}electrostatic}\PY{p}{[}\PY{n}{name}\PY{p}{]}\PY{o}{=}\PY{n}{represent\PYZus{}interaction\PYZus{}and\PYZus{}feedback}\PY{p}{(}\PY{n}{sys}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{electrostatic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{385}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{el\PYZus{}df} \PY{o}{=} \PY{n}{DataFrame}\PY{p}{(}\PY{n}{new\PYZus{}electrostatic}\PY{p}{)}
+\PY{n}{ct\PYZus{}df} \PY{o}{=} \PY{n}{DataFrame}\PY{p}{(}\PY{n}{new\PYZus{}contact}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{97}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cg}\PY{o}{=}\PY{n}{ClusterGrammer}\PY{p}{(}\PY{n}{el\PYZus{}df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{index}\PY{o}{=}\PY{n}{BioQM}\PY{o}{.}\PY{n}{rename\PYZus{}residue}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{98}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cg}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/usr/local/lib/python3.6/dist-
+packages/clustergrammer\_widget/clustergrammer/run\_filter.py:74: FutureWarning:
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/user\_guide/indexing.html\#ix-indexer-
+is-deprecated
+  df = df.ix[keep\_rows]
+/usr/local/lib/python3.6/dist-
+packages/clustergrammer\_widget/clustergrammer/make\_views.py:28: FutureWarning:
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/user\_guide/indexing.html\#ix-indexer-
+is-deprecated
+  tmp\_df['mat'] = tmp\_df['mat'].ix[keep\_rows]
+    \end{Verbatim}
+
+    
+    \begin{verbatim}
+clustergrammer_widget(network='{"row_nodes": [{"name": "A-116:A", "ini": 301, "clust": 32, "rank": 63, "rankva…
+    \end{verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{99}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}link=cg.publish(\PYZsq{}electrostatic\PYZus{}interactions\PYZus{}subs\PYZus{}XChem\PYZsq{})}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{102}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cg}\PY{o}{.}\PY{n}{publish\PYZus{}link}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{102}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+'http://maayanlab.cloud/clustergrammer/viz/603f624cd0867e01721c47e5/electrostati
+c\_interactions\_subs\_XChem.tsv'
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{396}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cluster5}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x0107, x0434, x0540, x0678, x0967}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{, }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{contact\PYZus{}clusters} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x0426, x1093, x0540, x0946, x0434, x0195, x0995, x0678, x0104, x0107, x0874, x1077, x0967, x0161, x0397, subs02, subs05, subs01, subs13}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{, }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{el\PYZus{}clusters} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x0387, x0752, x0354}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{, }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{397}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{contact\PYZus{}clusters} \PY{o}{=} \PY{p}{[}\PY{n}{c} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{contact\PYZus{}clusters} \PY{k}{if} \PY{n}{c} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{cluster5}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{411}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{color\PYZus{}labels}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{n}{cluster5}\PY{p}{,}\PY{n}{contact\PYZus{}clusters}\PY{p}{,}\PY{n}{el\PYZus{}clusters}\PY{p}{)}\PY{p}{:}
+    \PY{n}{ylabs}\PY{o}{=}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{lab} \PY{o+ow}{in} \PY{n}{ylabs}\PY{p}{:}
+        \PY{k}{if} \PY{n}{lab}\PY{o}{.}\PY{n}{get\PYZus{}text}\PY{p}{(}\PY{p}{)} \PY{o+ow}{in} \PY{n}{cluster5}\PY{p}{:}
+            \PY{n}{lab}\PY{o}{.}\PY{n}{set\PYZus{}color}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{lab}\PY{o}{.}\PY{n}{set\PYZus{}fontweight}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{k}{elif} \PY{n}{lab}\PY{o}{.}\PY{n}{get\PYZus{}text}\PY{p}{(}\PY{p}{)} \PY{o+ow}{in} \PY{n}{contact\PYZus{}clusters}\PY{p}{:}
+            \PY{n}{lab}\PY{o}{.}\PY{n}{set\PYZus{}color}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{k}{elif} \PY{n}{lab}\PY{o}{.}\PY{n}{get\PYZus{}text}\PY{p}{(}\PY{p}{)} \PY{o+ow}{in} \PY{n}{el\PYZus{}clusters}\PY{p}{:}
+            \PY{n}{lab}\PY{o}{.}\PY{n}{set\PYZus{}color}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purple}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{412}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{BigDFT}\PY{n+nn}{.}\PY{n+nn}{Stats} \PY{k+kn}{import} \PY{n}{dataframe\PYZus{}dendrogram}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{420}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,}\PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{)}
+\PY{n}{contact\PYZus{}dendrogram}\PY{o}{=}\PY{n}{dataframe\PYZus{}dendrogram}\PY{p}{(}\PY{n}{ct\PYZus{}df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{orientation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+\PY{n}{color\PYZus{}labels}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{n}{cluster5}\PY{p}{,}\PY{n}{contact\PYZus{}clusters}\PY{p}{,}\PY{n}{el\PYZus{}clusters}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Contact interaction clustering}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}yticklabels}\PY{p}{(}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Average Correlation Distance of Residue Contact Interactions with the ligand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{420}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Text(0.5, 0, 'Average Correlation Distance of Residue Contact Interactions with
+the ligand')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_51_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{418}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,}\PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{)}
+\PY{n}{contact\PYZus{}dendrogram}\PY{o}{=}\PY{n}{dataframe\PYZus{}dendrogram}\PY{p}{(}\PY{n}{el\PYZus{}df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{orientation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{)}
+\PY{n}{color\PYZus{}labels}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{n}{cluster5}\PY{p}{,}\PY{n}{contact\PYZus{}clusters}\PY{p}{,}\PY{n}{el\PYZus{}clusters}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Electrostatic interaction clustering}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}yticklabels}\PY{p}{(}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Average Correlation Distance of Residue Electrostatic Interactions with the Ligand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{418}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Text(0.5, 0, 'Average Correlation Distance of Residue Electrostatic Interactions
+with the Ligand')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_52_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{423}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{pops}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subs01}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{populations}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{energies}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{datas}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{423}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<BigDFT.Stats.Population at 0x7f6fd2cf4a90>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{389}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{long\PYZus{}range\PYZus{}dendrogram}\PY{o}{=}\PY{n}{dataframe\PYZus{}dendrogram}\PY{p}{(}\PY{n}{el\PYZus{}df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{orientation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_54_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{147}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dataframe}\PY{o}{=}\PY{p}{(}\PY{n}{el\PYZus{}df}\PY{p}{)}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+\PY{n}{z} \PY{o}{=} \PY{n}{hc}\PY{o}{.}\PY{n}{linkage}\PY{p}{(}\PY{n}{dataframe}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{average}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{metric}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{correlation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig}\PY{p}{,}\PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{)}
+\PY{n}{dendrogram} \PY{o}{=} \PY{n}{hc}\PY{o}{.}\PY{n}{dendrogram}\PY{p}{(}\PY{n}{z}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{dataframe}\PY{o}{.}\PY{n}{columns}\PY{p}{,} \PY{n}{ax}\PY{o}{=} \PY{n}{ax}\PY{p}{,} \PY{n}{orientation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mf}{0.515}\PY{p}{)}
+\PY{n}{color\PYZus{}labels}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{n}{cluster5}\PY{p}{,}\PY{n}{contact\PYZus{}clusters}\PY{p}{,}\PY{n}{el\PYZus{}clusters}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Long\PYZhy{}Range interaction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}}\PY{o}{=}\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}yticklabels}\PY{p}{(}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_55_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{103}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ct\PYZus{}cg}\PY{o}{=}\PY{n}{ClusterGrammer}\PY{p}{(}\PY{n}{ct\PYZus{}df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{index}\PY{o}{=}\PY{n}{BioQM}\PY{o}{.}\PY{n}{rename\PYZus{}residue}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{104}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ct\PYZus{}cg}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/usr/local/lib/python3.6/dist-
+packages/clustergrammer\_widget/clustergrammer/run\_filter.py:74: FutureWarning:
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/user\_guide/indexing.html\#ix-indexer-
+is-deprecated
+  df = df.ix[keep\_rows]
+/usr/local/lib/python3.6/dist-
+packages/clustergrammer\_widget/clustergrammer/make\_views.py:28: FutureWarning:
+.ix is deprecated. Please use
+.loc for label based indexing or
+.iloc for positional indexing
+
+See the documentation here:
+http://pandas.pydata.org/pandas-docs/stable/user\_guide/indexing.html\#ix-indexer-
+is-deprecated
+  tmp\_df['mat'] = tmp\_df['mat'].ix[keep\_rows]
+    \end{Verbatim}
+
+    
+    \begin{verbatim}
+clustergrammer_widget(network='{"row_nodes": [{"name": "A-003:F", "ini": 144, "clust": 129, "rank": 134, "rank…
+    \end{verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{148}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dataframe}\PY{o}{=}\PY{p}{(}\PY{n}{ct\PYZus{}df}\PY{p}{)}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+\PY{n}{z} \PY{o}{=} \PY{n}{hc}\PY{o}{.}\PY{n}{linkage}\PY{p}{(}\PY{n}{dataframe}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{average}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{metric}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{correlation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{fig}\PY{p}{,}\PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{)}
+\PY{n}{dendrogram} \PY{o}{=} \PY{n}{hc}\PY{o}{.}\PY{n}{dendrogram}\PY{p}{(}\PY{n}{z}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{dataframe}\PY{o}{.}\PY{n}{columns}\PY{p}{,} \PY{n}{ax}\PY{o}{=} \PY{n}{ax}\PY{p}{,} \PY{n}{orientation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mf}{0.515}\PY{p}{)}
+\PY{n}{color\PYZus{}labels}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{n}{cluster5}\PY{p}{,}\PY{n}{contact\PYZus{}clusters}\PY{p}{,}\PY{n}{el\PYZus{}clusters}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Contact interaction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}}\PY{o}{=}\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}yticklabels}\PY{p}{(}\PY{n}{ax}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_59_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}ct\PYZus{}cg.publish(\PYZsq{}contact\PYZus{}interactions\PYZus{}subs\PYZus{}XChem\PYZsq{})}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{109}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ct\PYZus{}cg}\PY{o}{.}\PY{n}{publish\PYZus{}link}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{109}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+'http://maayanlab.cloud/clustergrammer/viz/603f6484d0867e01721c4820/contact\_inte
+ractions\_subs\_XChem.tsv'
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
