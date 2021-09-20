@@ -5,7 +5,7 @@ This is the repository for supplementary files from:
 
 H. T. Henry Chan, Marc A. Moesser, Rebecca K. Walters, Tika R. Malla, Rebecca M. Twidale, Tobias John, Helen M. Deeks, Tristan Johnston-Wood, Victor Mikhailov, Richard B. Sessions, William Dawson, Eidarus Salah, Petra Lukacik, Claire Strain-Damerell, David Owen, Takahito Nakajima, Katarzyna Swiderek, Alessio Lodola, Vicent Moliner, David R. Glowacki, Martin A. Walsh, Christopher J. Schofield, Luigi Genovese, Deborah Shoemark, Adrian J. Mulholland, Fernanda Duarte, Garrett M. Morris
 
-doi: [https://doi.org/10.1101/2021.06.18.446355](https://bit.ly/peptibitors)
+doi: [https://doi.org/10.1101/2021.06.18.446355](https://pubs.rsc.org/en/content/articlelanding/2021/SC/D1SC03628A)
 
 Here's an overview of our work:
 
